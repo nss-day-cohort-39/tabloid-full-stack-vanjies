@@ -22,14 +22,14 @@ namespace Tabloid.Repositories
             var All = _context.Post.Include(p => p.UserProfile).Include(p => p.Category).Where(p => p.IsApproved == true && p.PublishDateTime < DateTime.Now).OrderByDescending(p => p.PublishDateTime).ToList();
             return All;
         }
-    
 
-        //public Post GetById(int id)
-        //{
-        //    return _context.Post.Include(p => p.UserProfile)
-        //                        .Include(p => p.Category)
-        //                        .FirstOrDefault(p => p.Id == id);
-        //}
+
+        public Post GetById(int id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                                .Include(p => p.Category)
+                                .FirstOrDefault(p => p.Id == id);
+        }
 
         //public List<Post> GetByUserProfileId(int id)
         //{

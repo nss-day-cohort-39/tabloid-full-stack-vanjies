@@ -4,7 +4,7 @@ using Tabloid.Data;
 using Tabloid.Repositories;
 using Tabloid.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
@@ -14,9 +14,11 @@ namespace Tabloid.Controllers
     public class PostController : ControllerBase
     {
         private readonly PostRepository _postRepository;
+        private readonly UserProfileRepository _userProfileRepository;
         public PostController(ApplicationDbContext context)
         {
             _postRepository = new PostRepository(context);
+            _userProfileRepository = new UserProfileRepository(context);
         }
 
         [HttpGet]
@@ -25,16 +27,16 @@ namespace Tabloid.Controllers
             return Ok(_postRepository.GetAll());
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult Get(int id)
-        //{
-        //    var post = _postRepository.GetById(id);
-        //    if (post == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(post);
-        //}
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var post = _postRepository.GetById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
+        }
 
         //[HttpGet("getbyuser/{id}")]
         //public IActionResult GetByUser(int id)
@@ -81,5 +83,11 @@ namespace Tabloid.Controllers
         //{
         //    return Ok(_postRepository.Hottest(since));
         //}
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
     }
 }
