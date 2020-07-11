@@ -23,14 +23,19 @@ export default function Header() {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            { /* When isLoggedIn === true, we will render the Post link */ }
+            { /* When isLoggedIn === true, we will render the Post link */}
             {isLoggedIn &&
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/">Posts</NavLink>
-              </NavItem>
-            }   
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/">Posts</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/newpost">New Post</NavLink>
+                </NavItem>
+              </>}
           </Nav>
-          
+
           <Nav navbar>
             {isLoggedIn &&
               <>

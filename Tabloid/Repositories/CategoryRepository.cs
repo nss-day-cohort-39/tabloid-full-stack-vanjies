@@ -1,40 +1,38 @@
-﻿using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Tabloid.Data;
 using Tabloid.Models;
 
 namespace Tabloid.Repositories
 {
-    public class PostRepository
+    public class CategoryRepository
     {
         private readonly ApplicationDbContext _context;
 
 
 
-        public PostRepository(ApplicationDbContext context)
+        public CategoryRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-    public List<Post> GetAll()
+        public List<Category> GetAll()
         {
-            var All = _context.Post.Include(p => p.UserProfile).Include(p => p.Category).Where(p => p.IsApproved == true && p.PublishDateTime < DateTime.Now).OrderByDescending(p => p.PublishDateTime).ToList();
+            var All = _context.Category.ToList();
             return All;
         }
 
-        public void Add(Post post)
+        public void Add(Category category)
         {
-            _context.Add(post);
+            _context.Add(category);
             _context.SaveChanges();
         }
 
 
-        public Post GetById(int id)
+        public Category GetById(int id)
         {
-            return _context.Post.Include(p => p.UserProfile)
-                                .Include(p => p.Category)
-                                .FirstOrDefault(p => p.Id == id);
+            return _context.Category.FirstOrDefault(c => c.Id == id);
         }
 
         //public List<Post> GetByUserProfileId(int id)

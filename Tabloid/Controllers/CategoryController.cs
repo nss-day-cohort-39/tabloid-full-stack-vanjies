@@ -11,28 +11,27 @@ namespace Tabloid.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class PostController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly PostRepository _postRepository;
-        private readonly UserProfileRepository _userProfileRepository;
-        public PostController(ApplicationDbContext context)
+        private readonly CategoryRepository _categoryRepository;
+
+        public CategoryController(ApplicationDbContext context)
         {
-            _postRepository = new PostRepository(context);
-            _userProfileRepository = new UserProfileRepository(context);
+            _categoryRepository = new CategoryRepository(context);
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_postRepository.GetAll());
+            return Ok(_categoryRepository.GetAll());
         }
 
 
         [HttpPost]
-        public IActionResult Post(Post post)
+        public IActionResult Post(Category category)
         {
-            _postRepository.Add(post);
-            return CreatedAtAction("Get", new { id = post.Id }, post);
+            _categoryRepository.Add(category);
+            return CreatedAtAction("Get", new { id = category.Id }, category);
         }
 
 
@@ -40,12 +39,12 @@ namespace Tabloid.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var post = _postRepository.GetById(id);
-            if (post == null)
+            var category = _categoryRepository.GetById(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return Ok(post);
+            return Ok(category);
         }
 
         //[HttpGet("getbyuser/{id}")]
