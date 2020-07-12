@@ -10,7 +10,7 @@ export const CategoryProvider = (props) => {
 
     const { getToken } = useContext(UserProfileContext);
 
-    const getAllCategories = () =>
+    const getAllCategories = () => {
         getToken().then((token) =>
             fetch(apiUrl, {
                 method: "GET",
@@ -19,6 +19,7 @@ export const CategoryProvider = (props) => {
                 }
             }).then(resp => resp.json())
                 .then(setCategories));
+    }
 
     const getCategoryById = (id) =>
         getToken().then((token) =>

@@ -23,6 +23,7 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetByFirebaseUserId(firebaseUserId));
         }
 
+
         [HttpPost]
         public IActionResult Post(UserProfile userProfile)
         {

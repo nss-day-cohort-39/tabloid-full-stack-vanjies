@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { PostContext } from "../providers/PostProvider";
 import { CategoryContext } from "../providers/CategoryProvider";
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 
 export default function NewPostForm() {
@@ -21,6 +22,7 @@ export default function NewPostForm() {
         getAllCategories();
     }, []);
 
+
     const submitForm = (e) => {
         e.preventDefault();
         if (!content) {
@@ -36,11 +38,11 @@ export default function NewPostForm() {
             addPost({
                 title: title,
                 content: content,
-                category: category,
-                imageUrl: imageUrl,
+                categoryId: category.id,
+                imageLocation: imageUrl,
                 publicationDate: publicationDate,
                 createDateTime: Date.now(),
-                isApproved: true
+                isApproved: true,
             })
                 .then(() => history.push("/"))
                 .catch((err) => alert(`An error ocurred: ${err.message}`));
@@ -51,16 +53,15 @@ export default function NewPostForm() {
         <Form onSubmit={submitForm}>
             <FormGroup>
                 <Label for="title">Title</Label>
-                <Input placeholder="Title" id="new-post-title" type="title" onChange={e => setTitle(e.target.value)} />
+                <Input placeholder="Title" id="new-post-title" type="text" onChange={e => setTitle(e.target.value)} />
             </FormGroup>
             <FormGroup>
                 <Label for="new-post-content">Content</Label>
-                <Input placeholder="Content" id="new-post-content" type="content" onChange={e => setContent(e.target.value)} />
+                <Input placeholder="Content" id="new-post-content" type="text" onChange={e => setContent(e.target.value)} />
             </FormGroup>
             <FormGroup>
                 <Label for="exampleSelect">Select Category</Label>
-                <Input type="select" name="select" id="new-post-category" onChange={e => setCategory(e.target.value)}
-                >
+                <Input type="select" name="select" id="new-post-category" onChange={e => setCategory(e.target.value)}>
                     <option key="0" value="0">Select A Category</option>
                     {categories.map(c => (
                         <option value={c.id} key={c.id} >
@@ -70,10 +71,10 @@ export default function NewPostForm() {
                 </Input>
             </FormGroup>
             <FormGroup>
-                <Label for="imageUrl">Image Url</Label>
+                <Label for="imageLocation">Image Url</Label>
                 <Input
-                    type="imageUrl"
-                    name="imageUrl"
+                    type="text"
+                    name="imageLocation"
                     id="new-post-image-url"
                     placeholder="Image Url"
                     onChange={e => setImageUrl(e.target.value)}
@@ -82,7 +83,7 @@ export default function NewPostForm() {
             <FormGroup>
                 <Label for="publicationDate">Publication Date</Label>
                 <Input
-                    type="publicationDate"
+                    type="date"
                     name="publicationDate"
                     id="new=post-publication-date"
                     placeholder="Pick a Date"

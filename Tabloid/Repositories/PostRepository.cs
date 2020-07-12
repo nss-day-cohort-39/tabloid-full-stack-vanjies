@@ -5,6 +5,7 @@ using System;
 using Tabloid.Data;
 using Tabloid.Models;
 
+
 namespace Tabloid.Repositories
 {
     public class PostRepository
@@ -23,6 +24,7 @@ namespace Tabloid.Repositories
             return All;
         }
 
+       
         public void Add(Post post)
         {
             _context.Add(post);

@@ -4,7 +4,7 @@ using Tabloid.Data;
 using Tabloid.Repositories;
 using Tabloid.Models;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
@@ -21,16 +21,29 @@ namespace Tabloid.Controllers
             _userProfileRepository = new UserProfileRepository(context);
         }
 
+
+        //getting the authorized user's 
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_postRepository.GetAll());
         }
 
+      
 
+        [Authorize]
         [HttpPost]
         public IActionResult Post(Post post)
         {
+            var currentUser = GetCurrentUserProfile();
+            post.UserProfileId = currentUser.Id;
+
             _postRepository.Add(post);
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
