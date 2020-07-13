@@ -38,10 +38,10 @@ export default function NewPostForm() {
             addPost({
                 title: title,
                 content: content,
-                categoryId: category.id,
+                categoryId: parseInt(category),
                 imageLocation: imageUrl,
-                publicationDate: publicationDate,
-                createDateTime: Date.now(),
+                publishDateTime: publicationDate,
+                createDateTime: new Date(),
                 isApproved: true,
             })
                 .then(() => history.push("/"))
