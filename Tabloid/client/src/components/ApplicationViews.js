@@ -8,6 +8,7 @@ import NewPostForm from "./NewPostForm";
 import PostDetails from "./PostDetails"
 import MyPostList from "./MyPostList";
 import CategoryList from "./CategoryList";
+import TagList from "./TagList";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -25,6 +26,10 @@ export default function ApplicationViews() {
 
         <Route path="/category" exact>
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/tag" exact>
+          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
