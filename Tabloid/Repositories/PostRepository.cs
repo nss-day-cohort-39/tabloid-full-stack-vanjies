@@ -17,18 +17,23 @@ namespace Tabloid.Repositories {
             return All;
         }
 
-        public List<Post> GetByFirebaseUserId (string id) {
-            return _context.Post.Include (p => p.UserProfile)
-                .Include (p => p.Category)
-                .Where (p => p.UserProfile.FirebaseUserId == id)
-                .OrderBy (p => p.CreateDateTime)
-                .ToList ();
+        public void Add (Post post) {
+            _context.Add (post);
+            _context.SaveChanges ();
         }
 
         public Post GetById (int id) {
             return _context.Post.Include (p => p.UserProfile)
                 .Include (p => p.Category)
                 .FirstOrDefault (p => p.Id == id);
+        }
+
+        public List<Post> GetByFirebaseUserId (string id) {
+            return _context.Post.Include (p => p.UserProfile)
+                .Include (p => p.Category)
+                .Where (p => p.UserProfile.FirebaseUserId == id)
+                .OrderBy (p => p.CreateDateTime)
+                .ToList ();
         }
 
     }

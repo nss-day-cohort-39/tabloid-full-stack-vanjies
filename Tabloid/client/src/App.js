@@ -14,8 +14,8 @@ function App() {
         <PostProvider>
           <CategoryProvider>
             <TagProvider>
-          <Header />
-          <ApplicationViews />
+              <Header />
+              <ApplicationViews />
             </TagProvider>
           </CategoryProvider>
         </PostProvider>

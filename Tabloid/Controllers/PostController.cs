@@ -17,9 +17,25 @@ namespace Tabloid.Controllers {
             _userProfileRepository = new UserProfileRepository (context);
         }
 
+        //getting the authorized user's 
+        private UserProfile GetCurrentUserProfile () {
+            var firebaseUserId = User.FindFirst (ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId (firebaseUserId);
+        }
+
         [HttpGet]
         public IActionResult Get () {
             return Ok (_postRepository.GetAll ());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Post (Post post) {
+            var currentUser = GetCurrentUserProfile ();
+            post.UserProfileId = currentUser.Id;
+
+            _postRepository.Add (post);
+            return CreatedAtAction ("Get", new { id = post.Id }, post);
         }
 
         [HttpGet ("{id}")]
@@ -35,11 +51,6 @@ namespace Tabloid.Controllers {
         public IActionResult GetByUser () {
             var firebaseUserId = User.FindFirst (ClaimTypes.NameIdentifier).Value;
             return Ok (_postRepository.GetByFirebaseUserId (firebaseUserId));
-        }
-
-        private UserProfile GetCurrentUserProfile () {
-            var firebaseUserId = User.FindFirst (ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId (firebaseUserId);
         }
 
     }
