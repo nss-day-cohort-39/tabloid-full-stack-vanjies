@@ -29,15 +29,6 @@ export const PostProvider = (props) => {
         }
       }).then((res) => res.json()));
 
-  // const addPost = (post) => {
-  //   return fetch("/api/post", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(post),
-  //   }).then();
-  // };
 
   const addPost = (post) =>
     getToken().then((token) =>
@@ -56,26 +47,22 @@ export const PostProvider = (props) => {
         throw new Error("Unauthorized");
       }));
 
-  // const getPostsByUser = (id) => {
-  //   return fetch(`/api/post/getbyuser/${id}`).then((res) => res.json()).then(setPosts);
-  // };
+  const getPostsByUser = () => {
+    getToken().then((token) =>
+      fetch(`${apiUrl}/getbyuser`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(resp => resp.json()).then(setPosts));
+  };
 
-
-  //   const searchPosts = (searchTerm) => {
-  //     if (!searchTerm) {
-  //       getAllPosts()
-  //       return
-  //     }
-  //     return fetch(`api/post/search?q=${searchTerm}&sortDesc=true`)
-  //         .then((res) => res.json())
-  //         .then(setPosts)
-  //   }     
 
 
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, getPostById, addPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, getPostsByUser, getPostById, addPost }}>
       {props.children}
     </PostContext.Provider>
   );
