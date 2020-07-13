@@ -23,6 +23,7 @@ export default function NewPostForm() {
     }, []);
 
 
+
     const submitForm = (e) => {
         e.preventDefault();
         if (!content) {
@@ -35,7 +36,7 @@ export default function NewPostForm() {
             window.alert("You forgot a category!")
         }
         else {
-            addPost({
+            const NewPost = {
                 title: title,
                 content: content,
                 categoryId: parseInt(category),
@@ -43,8 +44,9 @@ export default function NewPostForm() {
                 publishDateTime: publicationDate,
                 createDateTime: new Date(),
                 isApproved: true,
-            })
-                .then(() => history.push("/"))
+            }
+            addPost(NewPost)
+                .then((p) => history.push(`/posts/${p.id}`))
                 .catch((err) => alert(`An error ocurred: ${err.message}`));
         }
     };

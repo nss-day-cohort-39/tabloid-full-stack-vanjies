@@ -40,12 +40,10 @@ export const PostProvider = (props) => {
         },
         body: JSON.stringify(post)
       }).then(resp => {
-        if (resp.ok) {
-          return resp.json()
-            .then(getPostById)
-        }
-        throw new Error("Unauthorized");
-      }));
+        return resp.json()
+      }
+      ));
+
 
   const getPostsByUser = () => {
     getToken().then((token) =>

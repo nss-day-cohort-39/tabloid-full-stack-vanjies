@@ -38,10 +38,5 @@ namespace Tabloid.Controllers {
             return Ok (category);
         }
 
-        [HttpGet ("getbyuser")]
-        public IActionResult GetByUser () {
-            var firebaseUserId = User.FindFirst (ClaimTypes.NameIdentifier).Value;
-            return Ok (_categoryRepository.GetByFirebaseUserId (firebaseUserId));
-        }
     }
 }
