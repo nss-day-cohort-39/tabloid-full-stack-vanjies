@@ -1,16 +1,16 @@
 import React, { useState, useContext } from "react";
 import {UserProfileContext } from "../providers/UserProfileProvider";
 
-export const CategoryContext = React.createContext();
+export const TagContext = React.createContext();
 
-export const CategoryProvider = (props) => {
+export const TagProvider = (props) => {
   
-  const apiUrl = "/api/category";
-  const [categories, setCategories] = useState([]);
+  const apiUrl = "/api/tag";
+  const [tags, setTags] = useState([]);
 
   const { getToken } = useContext(UserProfileContext);
 
-  const getAllCategories = () =>
+  const getAllTags = () =>
   getToken().then((token) =>
     fetch(apiUrl, {
       method: "GET",
@@ -18,12 +18,12 @@ export const CategoryProvider = (props) => {
         Authorization: `Bearer ${token}`
       }
     }).then(resp => resp.json())
-      .then(setCategories));
+      .then(setTags));
       
 
   return (
-    <CategoryContext.Provider value={{categories, getAllCategories}}>
+    <TagContext.Provider value={{tags, getAllTags}}>
       {props.children}
-    </CategoryContext.Provider>
+    </TagContext.Provider>
   );
 };
