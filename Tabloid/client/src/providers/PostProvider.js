@@ -31,35 +31,22 @@ export const PostProvider = (props) => {
 
 
 
-  // const getPostsByUser = (id) => {
-  //   return fetch(`/api/post/getbyuser/${id}`).then((res) => res.json()).then(setPosts);
-  // };
+  const getPostsByUser = () => {
+    getToken().then((token) =>
+      fetch(`${apiUrl}/getbyuser`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(resp => resp.json()).then(setPosts));
+  };
 
-  //   const addPost = (post) => {
-  //     return fetch("/api/post", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(post),
-  //     }).then(getAllPosts);
-  //   };
-
-  //   const searchPosts = (searchTerm) => {
-  //     if (!searchTerm) {
-  //       getAllPosts()
-  //       return
-  //     }
-  //     return fetch(`api/post/search?q=${searchTerm}&sortDesc=true`)
-  //         .then((res) => res.json())
-  //         .then(setPosts)
-  //   }     
 
 
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, getPostById }}>
+    <PostContext.Provider value={{ posts, getAllPosts, getPostsByUser, getPostById }}>
       {props.children}
     </PostContext.Provider>
   );
