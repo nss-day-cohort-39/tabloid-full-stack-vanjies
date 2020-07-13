@@ -4,6 +4,7 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 import Login from "./Login";
 import Register from "./Register";
 import PostList from "./PostList";
+import PostDetails from "./PostDetails"
 import MyPostList from "./MyPostList";
 import CategoryList from "./CategoryList";
 
@@ -31,6 +32,10 @@ export default function ApplicationViews() {
 
         <Route path="/register">
           <Register />
+        </Route>
+
+        <Route path={`/posts/:id`}>
+          <PostDetails />
         </Route>
       </Switch>
     </main>
