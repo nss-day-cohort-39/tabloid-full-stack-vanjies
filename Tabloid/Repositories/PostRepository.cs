@@ -22,7 +22,15 @@ namespace Tabloid.Repositories
             var All = _context.Post.Include(p => p.UserProfile).Include(p => p.Category).Where(p => p.IsApproved == true && p.PublishDateTime < DateTime.Now).OrderByDescending(p => p.PublishDateTime).ToList();
             return All;
         }
-    
+
+        public List<Post> GetByFirebaseUserId(string id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                            .Include(p => p.Category)
+                            .Where(p => p.UserProfile.FirebaseUserId == id)
+                            .OrderBy(p => p.CreateDateTime)
+                            .ToList();
+        }
 
         //public Post GetById(int id)
         //{
@@ -39,6 +47,8 @@ namespace Tabloid.Repositories
         //                    .OrderBy(p => p.Title)
         //                    .ToList();
         //}
+
+
 
         //public void Add(Post post)
         //{
