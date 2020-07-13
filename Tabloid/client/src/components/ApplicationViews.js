@@ -5,6 +5,7 @@ import Login from "./Login";
 import Register from "./Register";
 import PostList from "./PostList";
 import MyPostList from "./MyPostList";
+import CategoryList from "./CategoryList";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -18,6 +19,10 @@ export default function ApplicationViews() {
 
         <Route path="/post/getbyuser" exact>
           {isLoggedIn ? <MyPostList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/category" exact>
+          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
