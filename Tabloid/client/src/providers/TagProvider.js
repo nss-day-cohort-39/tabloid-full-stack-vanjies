@@ -22,7 +22,7 @@ export const TagProvider = (props) => {
       
    const addTag = (tag) =>
     getToken().then((token) =>
-      fetch(`${apiUrl}/post`, {
+      fetch(`${apiUrl}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
