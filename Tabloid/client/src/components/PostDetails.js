@@ -28,6 +28,7 @@ const PostDetail = () => {
                     <p className="post-details-publishDate">{post.publishDateTime}</p>
                 </div>
             </div>
+            <button>Delete Post</button>
         </div>
     );
 };

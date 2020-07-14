@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardImg, CardBody } from "reactstrap";
+import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 
 //using the Card component that comes with reactstrap to organize some of the post details
@@ -17,6 +17,7 @@ const Post = ({ post }) => {
         </Link>
         <p>{post.category.name}</p>
       </CardBody>
+      <Button>Delete</Button>
     </Card>
   );
 };

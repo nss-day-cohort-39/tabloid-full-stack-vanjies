@@ -55,6 +55,18 @@ export const PostProvider = (props) => {
       }).then(resp => resp.json()).then(setPosts));
   };
 
+  const deletePost = () => {
+    getToken().then((token) =>
+      fetch(`${apiUrl}/getbyuser`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(resp => resp.json()).then(setPosts));
+  };
+
+
+
 
 
 
