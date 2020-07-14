@@ -55,12 +55,22 @@ export const PostProvider = (props) => {
       }).then(resp => resp.json()).then(setPosts));
   };
 
-
+  const updatePost = (post) =>
+  getToken().then((token) =>
+    fetch(`${apiUrl}/${post.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(post)
+    }).then(getAllPosts)
+    );
 
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, getPostsByUser, getPostById, addPost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, getPostsByUser, getPostById, addPost, updatePost }}>
       {props.children}
     </PostContext.Provider>
   );
