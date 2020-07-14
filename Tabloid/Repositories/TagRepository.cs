@@ -23,5 +23,11 @@ namespace Tabloid.Repositories
             return All;
         }
 
+        public void Add(Tag tag)
+        {
+            _context.Add(tag);
+            _context.SaveChanges();
+        }
+
     }
 }
