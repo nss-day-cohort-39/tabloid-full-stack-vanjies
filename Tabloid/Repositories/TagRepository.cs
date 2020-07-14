@@ -23,5 +23,30 @@ namespace Tabloid.Repositories
             return All;
         }
 
+        public void Add(Tag tag)
+        {
+            _context.Add(tag);
+            _context.SaveChanges();
+        }
+
+        public void Update(Tag tag)
+        {
+            _context.Entry(tag).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var tag = GetById(id);
+            _context.Tag.Remove(tag);
+            _context.SaveChanges();
+        }
+
+        public Tag GetById(int id)
+        {
+            return _context.Tag.FirstOrDefault(p => p.Id == id);
+        }
+
+
     }
 }
