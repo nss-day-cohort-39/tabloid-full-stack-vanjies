@@ -31,8 +31,8 @@ const Tag = ({ tag }) => {
     <>
     <Card className="m-4">
       <p className="text-left px-2">{tag.name}</p>
-        {/* <Link onClick={toggleEdit}>Edit</Link>
-        <Link onClick={toggleDelete}>Delete</Link> */}
+        <Button onClick={toggleEdit}>Edit</Button>
+        <Button onClick={toggleDelete}>Delete</Button>
     </Card>
 
     <Modal isOpen={editModal} toggle={toggleEdit}>
