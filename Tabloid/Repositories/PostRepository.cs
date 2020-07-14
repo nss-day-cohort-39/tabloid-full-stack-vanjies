@@ -36,5 +36,11 @@ namespace Tabloid.Repositories {
                 .ToList ();
         }
 
+        public void Update(Post post)
+        {
+            _context.Entry(post).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
     }
 }

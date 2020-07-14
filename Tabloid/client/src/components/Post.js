@@ -59,6 +59,7 @@ const { updatePost } = useContext(PostContext)
 <Modal isOpen={editModal} toggle={toggleEdit}>
 <ModalBody>
   <div className="form-group">
+    <label htmlFor="title">Title: </label>
     <input
       type="text"
       id="title"
@@ -68,7 +69,9 @@ const { updatePost } = useContext(PostContext)
       className="form-control mt-4"
       defaultValue={post.title}
     />
-     <input
+
+    <label htmlFor="content">Content: </label>
+    <input
       type="text-area"
       id="content"
       onChange={e => setContent(e.target.value)}
@@ -77,7 +80,9 @@ const { updatePost } = useContext(PostContext)
       className="form-control mt-4"
       defaultValue={post.content}
     />
-     <select
+
+    <label htmlFor="category">Category: </label>
+    <select
       id="category"
       onChange={e => setCategory(e.target.value)}
       required
@@ -92,6 +97,28 @@ const { updatePost } = useContext(PostContext)
                         </option>
                     ))}
     </select>
+
+    <label htmlFor="imageLocation">Image URL: </label>
+    <input
+      type="text"
+      id="imageLocation"
+      onChange={e => setImageLocation(e.target.value)}
+      autoFocus
+      className="form-control mt-4"
+      defaultValue={post.imageLocation}
+    />
+
+    <label htmlFor="publicationDate">Publication Date: </label>
+    <input
+      type="date"
+      name="publishDateTime"
+      id="new=post-publish-date-time"
+      placeholder="Pick a Date"
+      defaultValue={post.publishDateTime.substr(0, 10)}
+      onChange={e => setPublishDateTime(e.target.value)}
+    />
+
+
 
     <div className="">
       <Button
