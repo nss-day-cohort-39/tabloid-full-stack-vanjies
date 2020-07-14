@@ -29,5 +29,10 @@ namespace Tabloid.Repositories
             _context.SaveChanges();
         }
 
+        public void Update(Tag tag)
+        {
+            _context.Entry(tag).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }
