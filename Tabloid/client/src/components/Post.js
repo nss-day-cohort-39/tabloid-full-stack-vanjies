@@ -1,9 +1,18 @@
 import React from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import { PostContext } from "../providers/PostProvider"
 
 //using the Card component that comes with reactstrap to organize some of the post details
 const Post = ({ post }) => {
+
+  const { deletePost } = useContext(PostContext)
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const toggleDelete = () => {
+    setDeleteModal(!deleteModal)
+  };
+
 
   return (
     <Card className="m-4">
