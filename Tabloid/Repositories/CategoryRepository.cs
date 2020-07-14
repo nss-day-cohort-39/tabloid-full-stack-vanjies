@@ -27,6 +27,12 @@ namespace Tabloid.Repositories {
         public Category GetById (int id) {
             return _context.Category.FirstOrDefault (c => c.Id == id);
         }
+        public void Delete(int id)
+        {
+            var category = GetById(id);
+            _context.Category.Remove(category);
+            _context.SaveChanges();
+        }
 
     }
 }
