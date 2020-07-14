@@ -6,14 +6,19 @@ import { TagContext } from "../providers/TagProvider";
 //using the Card component that comes with reactstrap to organize some of the post details
 const Tag = ({ tag }) => {
 
-  const { updateTag } = useContext(TagContext)
+  const { updateTag, deleteTag } = useContext(TagContext)
   const [editModal, setEditModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [name, setName] = useState();
 
   const toggleEdit = () => {
     setEditModal(!editModal)
   };
   
+  const toggleDelete = () => {
+    setDeleteModal(!deleteModal)
+  };
+
   const submitForm = () => {
     updateTag({
       id: tag.id,
@@ -26,7 +31,8 @@ const Tag = ({ tag }) => {
     <>
     <Card className="m-4">
       <p className="text-left px-2">{tag.name}</p>
-      <Link onClick={toggleEdit}>Update</Link>
+        <Link onClick={toggleEdit}>Edit</Link>
+        <Link onClick={toggleDelete}>Delete</Link>
     </Card>
 
     <Modal isOpen={editModal} toggle={toggleEdit}>
@@ -54,6 +60,36 @@ const Tag = ({ tag }) => {
                       >
                         Save
                       </Button>
+                    </div>
+                  </div>
+                </ModalBody>
+      </Modal>
+
+      <Modal isOpen={deleteModal} toggle={toggleDelete}>
+                <ModalBody>
+                  <div className="form-group">
+                    <h3>
+                      Are you sure you want to delete the tag "{tag.name}"?
+                    </h3>
+                    <div className="">
+                      <Button
+                        type="submit"
+                        size="sm"
+                        color="info"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          deleteTag(tag.id)}
+                      }
+                        className="btn mt-4"
+                      >
+                        Yes
+                      </Button>
+                      <Button
+                        type="submit"
+                        size="sm"
+                        color="info"
+                        onClick={toggleDelete}
+                      >No</Button>
                     </div>
                   </div>
                 </ModalBody>

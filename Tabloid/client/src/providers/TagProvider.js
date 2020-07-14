@@ -49,7 +49,7 @@ export const TagProvider = (props) => {
         
         const deleteTag = (id) => {
           return getToken().then((token) =>
-            fetch(apiUrl`/${id}`, {
+            fetch(`${apiUrl}/${id}`, {
               method: "DELETE",
               headers: {
                 Authorization: `Bearer ${token}`,
