@@ -55,18 +55,18 @@ export const PostProvider = (props) => {
       }).then(resp => resp.json()).then(setPosts));
   };
 
-  const deletePost = () => {
-    getToken().then((token) =>
-      fetch(`${apiUrl}/getbyuser`, {
-        method: "GET",
+
+  const deletePost = (id) => {
+    return getToken().then((token) =>
+      fetch(`${apiUrl}/${id}`, {
+        method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(resp => resp.json()).then(setPosts));
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }).then(getAllPosts)
+    );
   };
-
-
-
 
 
 

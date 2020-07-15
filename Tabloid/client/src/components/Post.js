@@ -25,7 +25,7 @@ const Post = ({ post }) => {
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
-        <Button>Delete</Button>
+        <Button onClick={toggleDelete}>Delete</Button>
       </Card>
 
       <Modal isOpen={deleteModal} toggle={toggleDelete}>
