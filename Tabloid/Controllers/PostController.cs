@@ -6,8 +6,8 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers {
-    [Route ("api/[controller]")]
     [Authorize]
+    [Route ("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase {
         private readonly PostRepository _postRepository;
