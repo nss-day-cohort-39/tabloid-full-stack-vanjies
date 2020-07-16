@@ -8,9 +8,9 @@ main {
   margin-top: -16px;
   margin-left: -16px;
 }
- 
+
 p {
-    line-height: 2rem;
+  line-height: 2rem;
 }
 
 .post p {
@@ -20,3 +20,4 @@ p {
   font-family: Arial, sans-erif;
   white-space: pre-wrap;
 }
+  
