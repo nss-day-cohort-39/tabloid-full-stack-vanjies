@@ -36,6 +36,7 @@ const Post = ({ post }) => {
       imageLocation: imageLocation,
       publishDateTime: publishDateTime,
       createDateTime: post.createDateTime
+      
     });
     toggleEdit();
   }
