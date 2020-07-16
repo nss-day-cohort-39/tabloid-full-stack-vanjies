@@ -31,10 +31,10 @@ const PostDetail = () => {
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-6">
           <div><img src={post.imageLocation} className="post-details-image"/></div>
-            <p className="post-details-title">Post Title: {post.title}</p>
-            <p className="post-details-postedBy">Posted By: {post.userProfile.displayName}</p>
-            <p className="post-details-content">Content: {post.content}</p>
-            <p className="post-details-publishDate">Publish Date: {post.publishDateTime}</p>
+            <p className="post-details-title"><b>Post Title: </b> {post.title}</p>
+            <p className="post-details-postedBy"><b>Posted By: </b> {post.userProfile.displayName}</p>
+            <p className="post-details-content"><b>Content: </b>{post.content}</p>
+            <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
           </div>
         </div>
         <Button onClick={toggleDelete}>Delete Post</Button>
