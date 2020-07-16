@@ -33,7 +33,7 @@ const PostDetail = () => {
           <div><img src={post.imageLocation} className="post-details-image"/></div>
             <p className="post-details-title"><b>Post Title: </b> {post.title}</p>
             <p className="post-details-postedBy"><b>Posted By: </b> {post.userProfile.displayName}</p>
-            <p className="post-details-content"><b>Content: </b>{post.content}</p>
+            <pre className="post-details-content">{post.content}</pre>
             <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
           </div>
         </div>

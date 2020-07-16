@@ -16,3 +16,7 @@ p {
 .post p {
     white-space: pre-wrap;
 }
+.post-details-content {
+  font-family: Arial, sans-erif;
+  white-space: pre-wrap;
+}
