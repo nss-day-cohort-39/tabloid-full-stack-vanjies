@@ -60,6 +60,8 @@ namespace Tabloid.Controllers {
             {
                 return BadRequest();
             }
+            var currentUser = GetCurrentUserProfile();
+            post.UserProfileId = currentUser.Id;
 
             _postRepository.Update(post);
             return NoContent();

@@ -11,9 +11,9 @@ const Post = ({ post }) => {
 
   useEffect(() => {
     getAllCategories();
-}, []);
+  }, []);
 
-const { updatePost } = useContext(PostContext)
+  const { updatePost } = useContext(PostContext)
 
   const [title, setTitile] = useState(post.title);
   const [content, setContent] = useState(post.content);
@@ -34,111 +34,123 @@ const { updatePost } = useContext(PostContext)
       content: content,
       categoryId: parseInt(categoryId),
       imageLocation: imageLocation,
-      publishDateTime: publishDateTime
+      publishDateTime: publishDateTime,
+      createDateTime: post.createDateTime
     });
     toggleEdit();
   }
 
   return (
-<>
+    <>
 
-    <Card className="m-4">
-      <p className="text-left px-2">Posted by: {post.userProfile.displayName}
+      <Card className="m-4">
+        <p className="text-left px-2">Posted by: {post.userProfile.displayName}
 
-      </p>
+        </p>
 
-      <CardBody>
-        <Link to={`/posts/${post.id}`}>
-          <strong>{post.title}</strong>
-        </Link>
-        <p>{post.category.name}</p>
-      </CardBody>
-      <Button onClick={toggleEdit}>Edit</Button>
-    </Card>
+        <CardBody>
+          <Link to={`/posts/${post.id}`}>
+            <strong>{post.title}</strong>
+          </Link>
+          <p>{post.category.name}</p>
+        </CardBody>
+        <Button onClick={toggleEdit}>Edit</Button>
+      </Card>
 
-<Modal isOpen={editModal} toggle={toggleEdit}>
-<ModalBody>
-  <div className="form-group">
-    <label htmlFor="title">Title: </label>
-    <input
-      type="text"
-      id="title"
-      onChange={e => setTitile(e.target.value)}
-      required
-      autoFocus
-      className="form-control mt-4"
-      defaultValue={post.title}
-    />
+      <Modal isOpen={editModal} toggle={toggleEdit}>
+        <ModalBody>
+          <div className="form-group">
+            <label htmlFor="title">Title: </label>
+            <input
+              type="text"
+              id="title"
+              onChange={e => setTitile(e.target.value)}
+              required
+              autoFocus
+              className="form-control mt-4"
+              defaultValue={post.title}
+            />
 
-    <label htmlFor="content">Content: </label>
-    <input
-      type="text-area"
-      id="content"
-      onChange={e => setContent(e.target.value)}
-      required
-      autoFocus
-      className="form-control mt-4"
-      defaultValue={post.content}
-    />
+            <label htmlFor="content">Content: </label>
+            <input
+              type="text-area"
+              id="content"
+              onChange={e => setContent(e.target.value)}
+              required
+              autoFocus
+              className="form-control mt-4"
+              defaultValue={post.content}
+            />
 
-    <label htmlFor="category">Category: </label>
-    <select
-      id="category"
-      onChange={e => setCategoryId(e.target.value)}
-      required
-      autoFocus
-      className="form-control mt-4"
-      defaultValue={post.category.id}
-    > 
-    <option key="0" value="0">Select A Category</option>
-                    {categories.map(c => (
-                        <option value={c.id} key={c.id} >
-                            {c.name}
-                        </option>
-                    ))}
-    </select>
+            <label htmlFor="category">Category: </label>
+            <select
+              id="category"
+              onChange={e => setCategoryId(e.target.value)}
+              required
+              autoFocus
+              className="form-control mt-4"
+              defaultValue={post.category.id}
+            >
+              <option key="0" value="0">Select A Category</option>
+              {categories.map(c => (
+                <option value={c.id} key={c.id} >
+                  {c.name}
+                </option>
+              ))}
+            </select>
 
-    <label htmlFor="imageLocation">Image URL: </label>
-    <input
-      type="text"
-      id="imageLocation"
-      onChange={e => setImageLocation(e.target.value)}
-      autoFocus
-      className="form-control mt-4"
-      defaultValue={post.imageLocation}
-    />
+            <label htmlFor="imageLocation">Image URL: </label>
+            <input
+              type="text"
+              id="imageLocation"
+              onChange={e => setImageLocation(e.target.value)}
+              autoFocus
+              className="form-control mt-4"
+              defaultValue={post.imageLocation}
+            />
 
-    <label htmlFor="publicationDate">Publication Date: </label>
-    <input
-      type="date"
-      name="publishDateTime"
-      id="new=post-publish-date-time"
-      placeholder="Pick a Date"
-      defaultValue={post.publishDateTime.substr(0, 10)}
-      onChange={e => setPublishDateTime(e.target.value)}
-    />
+            <label htmlFor="publicationDate">Publication Date: </label>
+            <input
+              type="date"
+              name="publishDateTime"
+              id="new=post-publish-date-time"
+              placeholder="Pick a Date"
+              defaultValue={post.publishDateTime.substr(0, 10)}
+              onChange={e => setPublishDateTime(e.target.value)}
+            />
 
 
 
-    <div className="">
-      <Button
-        type="submit"
-        size="sm"
-        color="info"
-        onClick={(evt) => {
-          evt.preventDefault();
-          submitForm(post);
-        }}
-        className="btn mt-4"
-      >
-        Save
+            <div className="">
+              <Button
+                type="submit"
+                size="sm"
+                color="info"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  if (!content) {
+                    window.alert("You forgot to enter content!")
+                  }
+                  else if (!title) {
+                    window.alert("You forgot a title!")
+                  }
+                  else if (categoryId === "0") {
+                    window.alert("You forgot a category!")
+                  }
+                  else {
+                    submitForm(post);
+                  }
+                }}
+                className="btn mt-4"
+              >
+                Save
       </Button>
-    </div>
-  </div>
-</ModalBody>
-</Modal>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
 
-</>
+    </>
   );
 };
 

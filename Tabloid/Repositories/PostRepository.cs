@@ -13,7 +13,11 @@ namespace Tabloid.Repositories {
             _context = context;
         }
         public List<Post> GetAll () {
-            var All = _context.Post.Include (p => p.UserProfile).Include (p => p.Category).Where (p => p.IsApproved == true && p.PublishDateTime < DateTime.Now).OrderByDescending (p => p.PublishDateTime).ToList ();
+            var All = _context.Post.Include (p => p.UserProfile)
+                                   .Include (p => p.Category)
+                                   .Where (p => p.IsApproved == true && p.PublishDateTime < DateTime.Now)
+                                   .OrderByDescending (p => p.PublishDateTime)
+                                   .ToList ();
             return All;
         }
 
