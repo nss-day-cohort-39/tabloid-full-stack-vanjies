@@ -30,13 +30,11 @@ const PostDetail = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-sm-12 col-lg-6">
-            <p className="post-details-image">{post.imageLocation}</p>
-            <p className="post-details-title">{post.title}</p>
-            <p className="text-left px-2">
-              Posted by: {post.userProfile.displayName}
-            </p>
-            <p className="post-details-content">{post.content}</p>
-            <p className="post-details-publishDate">{post.publishDateTime}</p>
+          <div><img src={post.imageLocation} className="post-details-image"/></div>
+            <p className="post-details-title">Post Title: {post.title}</p>
+            <p className="post-details-postedBy">Posted By: {post.userProfile.displayName}</p>
+            <p className="post-details-content">Content: {post.content}</p>
+            <p className="post-details-publishDate">Publish Date: {post.publishDateTime}</p>
           </div>
         </div>
         <Button onClick={toggleDelete}>Delete Post</Button>
