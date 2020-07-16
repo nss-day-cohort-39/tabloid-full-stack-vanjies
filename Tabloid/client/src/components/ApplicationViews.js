@@ -56,7 +56,7 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path={`/posts/:id`}>
-          <PostDetails />
+        {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </main>
