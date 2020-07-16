@@ -35,7 +35,7 @@ const PostDetail = () => {
             <p className="text-left px-2">
               Posted by: {post.userProfile.displayName}
             </p>
-            <textarea className="post-details-content">{post.content}</textarea>
+            <p className="post-details-content">{post.content}</p>
             <p className="post-details-publishDate">{post.publishDateTime}</p>
           </div>
         </div>
