@@ -17,7 +17,7 @@ const { updatePost } = useContext(PostContext)
 
   const [title, setTitile] = useState(post.title);
   const [content, setContent] = useState(post.content);
-  const [category, setCategory] = useState(post.category.name);
+  const [categoryId, setCategoryId] = useState(post.category.name);
   const [imageLocation, setImageLocation] = useState(post.imageLocation);
   const [publishDateTime, setPublishDateTime] = useState(post.publishDateTime);
 
@@ -32,7 +32,7 @@ const { updatePost } = useContext(PostContext)
       id: post.id,
       title: title,
       content: content,
-      category: category,
+      categoryId: parseInt(categoryId),
       imageLocation: imageLocation,
       publishDateTime: publishDateTime
     });
@@ -84,7 +84,7 @@ const { updatePost } = useContext(PostContext)
     <label htmlFor="category">Category: </label>
     <select
       id="category"
-      onChange={e => setCategory(e.target.value)}
+      onChange={e => setCategoryId(e.target.value)}
       required
       autoFocus
       className="form-control mt-4"
