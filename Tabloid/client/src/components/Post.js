@@ -57,7 +57,7 @@ const Post = ({ post }) => {
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
-        {/* {history.location === '/getbyuser' ? <Button onClick={toggleEdit}>Edit</Button> : " " } */}
+        {history.location === '/getbyuser' ? <Button onClick={toggleEdit}>Edit</Button> : " " }
         {history.location === '/getbyuser' && <Button onClick={toggleEdit}>Edit</Button>}
         {/* <Button onClick={toggleEdit}>Edit</Button> */}
         

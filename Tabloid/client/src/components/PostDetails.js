@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody } from "reactstrap"
 import { useParams } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
@@ -6,59 +7,73 @@ import { CategoryContext } from "../providers/CategoryProvider";
 
 
 const PostDetail = () => {
-    const { getPostById, updatePost } = useContext(PostContext)
-    const [post, setPost] = useState();
-    const [editModal, setEditModal] = useState(false);
-    const { categories } = useContext(CategoryContext);
+    const { categories, getAllCategories } = useContext(CategoryContext);
+    const { getPostById, updatePost } = useContext(PostContext);
 
+    const history = useHistory();
 
     const { id } = useParams();
-    const [title, setTitle] = useState(post.title);
-    const [content, setContent] = useState(post.content);
-    const [categoryId, setCategoryId] = useState(post.category.name);
-    const [imageLocation, setImageLocation] = useState(post.imageLocation);
-    const [publishDateTime, setPublishDateTime] = useState(post.publishDateTime);
 
-  
+    const [post, setPost] = useState({ category: {}, userProfile: {}, publishDateTime: "" });
+    const [title, setTitle] = useState();
+    const [content, setContent] = useState();
+    const [categoryId, setCategoryId] = useState();
+    const [imageLocation, setImageLocation] = useState();
+    const [publishDateTime, setPublishDateTime] = useState("");
+   
 
-    useEffect(() => {
-        getPostById(id).then(setPost);
-    }, []);
-
+    const [editModal, setEditModal] = useState(false);
 
     const toggleEdit = () => {
         setEditModal(!editModal)
     };
 
     const submitForm = () => {
-        updatePost({
-            id: post.id,
+
+        const thePost = {
+            id: parseInt(id),
             title: title,
             content: content,
-            categoryId: parseInt(categoryId),
+            categoryId: categoryId,
             imageLocation: imageLocation,
             publishDateTime: publishDateTime,
-            createDateTime: post.createDateTime
+            createDateTime: post.createDateTime,
+            isApproved: true
 
+        }
+console.log(thePost);
+        updatePost(thePost).then(() => history.push(`/posts/${id}`))
+        .catch((err) => alert(`An error ocurred: ${err.message}`));
+    };
+
+    useEffect(() => {
+        getPostById(id).then((post) => {
+        setPost(post);
+        setTitle(post.title);
+        setContent(post.content);
+        setCategoryId(post.categoryId);
+        setImageLocation(post.imageLocation);
+        setPublishDateTime(post.publishDateTime);
+
+        getAllCategories();
         });
-        toggleEdit();
-    }
+     
 
-    if (!post) {
-        return null;
-    }
+        
 
+       
+    }, []);
 
     return (
         <>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-sm-12 col-lg-6">
-                        <p className="post-details-image">{post.imageLocation}</p>
-                        <p className="post-details-title">{post.title}</p>
+                        <p className="post-details-image">{imageLocation}</p>
+                        <p className="post-details-title">{title}</p>
                         <p className="text-left px-2">Posted by: {post.userProfile.displayName}</p>
-                        <p className="post-details-content">{post.content}</p>
-                        <p className="post-details-publishDate">{post.publishDateTime}</p>
+                        <p className="post-details-content">{content}</p>
+                        <p className="post-details-publishDate">{publishDateTime}</p>
                     </div>
 
                     <Button onClick={toggleEdit}>Edit</Button>
@@ -76,7 +91,7 @@ const PostDetail = () => {
                             required
                             autoFocus
                             className="form-control mt-4"
-                            defaultValue={post.title}
+                            value={title}
                         />
 
                         <label htmlFor="content">Content: </label>
@@ -84,20 +99,19 @@ const PostDetail = () => {
                             type="text-area"
                             id="content"
                             onChange={e => setContent(e.target.value)}
-                            required
                             autoFocus
                             className="form-control mt-4"
-                            defaultValue={post.content}
+                            value={content}
                         />
 
                         <label htmlFor="category">Category: </label>
                         <select
                             id="category"
-                            onChange={e => setCategoryId(e.target.value)}
+                            onChange={e => setCategoryId(parseInt(e.target.value))}
                             required
                             autoFocus
                             className="form-control mt-4"
-                            defaultValue={post.category.id}
+                            value={categoryId}
                         >
                             <option key="0" value="0">Select A Category</option>
                             {categories.map(c => (
@@ -114,7 +128,7 @@ const PostDetail = () => {
                             onChange={e => setImageLocation(e.target.value)}
                             autoFocus
                             className="form-control mt-4"
-                            defaultValue={post.imageLocation}
+                            value={imageLocation}
                         />
 
                         <label htmlFor="publicationDate">Publication Date: </label>
@@ -123,7 +137,7 @@ const PostDetail = () => {
                             name="publishDateTime"
                             id="new=post-publish-date-time"
                             placeholder="Pick a Date"
-                            defaultValue={post.publishDateTime.substr(0, 10)}
+                            value={publishDateTime.substr(0, 10)}
                             onChange={e => setPublishDateTime(e.target.value)}
                         />
 
@@ -136,16 +150,17 @@ const PostDetail = () => {
                                 color="info"
                                 onClick={(evt) => {
                                     evt.preventDefault();
-                                    if (!content) {
+                                    if (content === "") {
                                         window.alert("You forgot to enter content!")
                                     }
-                                    else if (!title) {
+                                    else if (title === "") {
                                         window.alert("You forgot a title!")
                                     }
                                     else if (categoryId === "0") {
                                         window.alert("You forgot a category!")
                                     }
                                     else {
+                                        console.log(post);
                                         submitForm(post);
                                     }
                                 }}
