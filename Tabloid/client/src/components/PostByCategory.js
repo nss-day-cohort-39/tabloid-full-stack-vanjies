@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { Button } from "reactstrap";
 import { CategoryContext } from "../providers/CategoryProvider";
 import { PostContext } from "../providers/CategoryProvider";
-import PostCategory from "./PostCategorySelector";
+import PostCategory from "./PostCategory";
 const PostByCategory = () => {
   const { getAllCategories, getCategoryById, categories } = useContext(
     CategoryContext

@@ -33,6 +33,7 @@ namespace Tabloid.Repositories {
                 .FirstOrDefault(p => p.Id == id);
         }
 
+
         public List<Post> GetByFirebaseUserId(string id)
         {
             return _context.Post.Include(p => p.UserProfile)
@@ -54,5 +55,7 @@ namespace Tabloid.Repositories {
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+
+       
     }
 }
