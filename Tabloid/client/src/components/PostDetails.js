@@ -11,7 +11,6 @@ const PostDetail = () => {
     const [editModal, setEditModal] = useState(false);
     const { categories } = useContext(CategoryContext);
 
-    const post = getPostById(id);
 
     const { id } = useParams();
     const [title, setTitle] = useState(post.title);
