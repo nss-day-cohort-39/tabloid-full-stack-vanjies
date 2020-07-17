@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Card, CardImg, CardBody, Button, Modal, ModalBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
@@ -9,13 +10,15 @@ const Post = ({ post }) => {
 
   const { categories, getAllCategories } = useContext(CategoryContext);
 
+  const history = useHistory();
+
   useEffect(() => {
     getAllCategories();
   }, []);
 
   const { updatePost } = useContext(PostContext)
 
-  const [title, setTitile] = useState(post.title);
+  const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
   const [categoryId, setCategoryId] = useState(post.category.name);
   const [imageLocation, setImageLocation] = useState(post.imageLocation);
@@ -54,7 +57,11 @@ const Post = ({ post }) => {
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
-        <Button onClick={toggleEdit}>Edit</Button>
+        {/* {history.location === '/getbyuser' ? <Button onClick={toggleEdit}>Edit</Button> : " " } */}
+        {history.location === '/getbyuser' && <Button onClick={toggleEdit}>Edit</Button>}
+        {/* <Button onClick={toggleEdit}>Edit</Button> */}
+        
+        
       </Card>
 
       <Modal isOpen={editModal} toggle={toggleEdit}>
@@ -64,7 +71,7 @@ const Post = ({ post }) => {
             <input
               type="text"
               id="title"
-              onChange={e => setTitile(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               required
               autoFocus
               className="form-control mt-4"
