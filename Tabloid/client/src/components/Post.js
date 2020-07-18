@@ -1,16 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { Card, CardImg, CardBody, Button, Modal, ModalBody } from "reactstrap";
 import { Link } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
 import { CategoryContext } from "../providers/CategoryProvider";
+import { UserProfileContext } from "../providers/UserProfileProvider";
 
 //using the Card component that comes with reactstrap to organize some of the post details
 const Post = ({ post }) => {
-
   const { categories, getAllCategories } = useContext(CategoryContext);
+  const { userProfile } = useContext(UserProfileContext);
+  const theUserProfile = JSON.parse(userProfile)
 
-  const history = useHistory();
 
   useEffect(() => {
     getAllCategories();
@@ -53,12 +53,12 @@ const Post = ({ post }) => {
         </p>
         <CardBody>
           <Link to={`/posts/${post.id}`}>
-            <strong>{post.title}</strong>
+            <strong>{post.title}</strong>s
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
-        {history.location === '/getbyuser' ? <Button onClick={toggleEdit}>Edit</Button> : " " }
-        {history.location === '/getbyuser' && <Button onClick={toggleEdit}>Edit</Button>}
+        {/* {post.userProfileId === theUserProfile.id ? <Button onClick={toggleEdit}>Edit</Button> : null } */}
+        {post.userProfileId === theUserProfile.id && <Button onClick={toggleEdit}>Edit</Button>}
         {/* <Button onClick={toggleEdit}>Edit</Button> */}
         
         

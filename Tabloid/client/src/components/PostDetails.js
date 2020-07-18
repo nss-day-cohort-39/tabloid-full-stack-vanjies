@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody } from "reactstrap"
 import { useParams } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
@@ -10,8 +9,6 @@ const PostDetail = () => {
     const { categories, getAllCategories } = useContext(CategoryContext);
     const { getPostById, updatePost } = useContext(PostContext);
 
-    const history = useHistory();
-
     const { id } = useParams();
 
     const [post, setPost] = useState({ category: {}, userProfile: {}, publishDateTime: "" });
@@ -20,7 +17,7 @@ const PostDetail = () => {
     const [categoryId, setCategoryId] = useState();
     const [imageLocation, setImageLocation] = useState();
     const [publishDateTime, setPublishDateTime] = useState("");
-   
+
 
     const [editModal, setEditModal] = useState(false);
 
@@ -41,27 +38,21 @@ const PostDetail = () => {
             isApproved: true
 
         }
-console.log(thePost);
-        updatePost(thePost).then(() => history.push(`/posts/${id}`))
-        .catch((err) => alert(`An error ocurred: ${err.message}`));
+        console.log(thePost);
+        updatePost(thePost);
     };
 
     useEffect(() => {
         getPostById(id).then((post) => {
-        setPost(post);
-        setTitle(post.title);
-        setContent(post.content);
-        setCategoryId(post.categoryId);
-        setImageLocation(post.imageLocation);
-        setPublishDateTime(post.publishDateTime);
+            setPost(post);
+            setTitle(post.title);
+            setContent(post.content);
+            setCategoryId(post.categoryId);
+            setImageLocation(post.imageLocation);
+            setPublishDateTime(post.publishDateTime);
 
-        getAllCategories();
+            getAllCategories();
         });
-     
-
-        
-
-       
     }, []);
 
     return (
@@ -141,8 +132,6 @@ console.log(thePost);
                             onChange={e => setPublishDateTime(e.target.value)}
                         />
 
-
-
                         <div className="">
                             <Button
                                 type="submit"
@@ -162,12 +151,13 @@ console.log(thePost);
                                     else {
                                         console.log(post);
                                         submitForm(post);
+                                        toggleEdit();
                                     }
                                 }}
                                 className="btn mt-4"
                             >
                                 Save
-      </Button>
+                            </Button>
                         </div>
                     </div>
                 </ModalBody>
