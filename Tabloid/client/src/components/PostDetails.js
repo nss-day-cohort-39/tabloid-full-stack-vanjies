@@ -3,11 +3,14 @@ import { Button, Modal, ModalBody } from "reactstrap"
 import { useParams } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
 import { CategoryContext } from "../providers/CategoryProvider";
+import { useHistory } from "react-router-dom";
 
 
 const PostDetail = () => {
+    const history = useHistory();
+
     const { categories, getAllCategories } = useContext(CategoryContext);
-    const { getPostById, updatePost } = useContext(PostContext);
+    const { getPostById, updatePost, deletePost } = useContext(PostContext);
 
     const { id } = useParams();
 
@@ -20,9 +23,15 @@ const PostDetail = () => {
 
 
     const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+
 
     const toggleEdit = () => {
         setEditModal(!editModal)
+    };
+
+    const toggleDelete = () => {
+        setDeleteModal(!deleteModal);
     };
 
     const submitForm = () => {
@@ -55,21 +64,28 @@ const PostDetail = () => {
         });
     }, []);
 
+    if (!post) {
+        return null;
+    }
+
+
     return (
         <>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-sm-12 col-lg-6">
-                        <p className="post-details-image">{imageLocation}</p>
-                        <p className="post-details-title">{title}</p>
-                        <p className="text-left px-2">Posted by: {post.userProfile.displayName}</p>
-                        <p className="post-details-content">{content}</p>
-                        <p className="post-details-publishDate">{publishDateTime}</p>
+                        <div><img src={imageLocation} className="post-details-image" /></div>
+                        <p className="post-details-title"><b>Post Title: </b> {title}</p>
+                        <p className="post-details-postedBy"><b>Posted By: </b> {post.userProfile.displayName}</p>
+                        <pre className="post-details-content">{content}</pre>
+                        <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
                     </div>
-
-                    <Button onClick={toggleEdit}>Edit</Button>
                 </div>
+                <Button onClick={toggleEdit}>Edit</Button>
+                <Button onClick={toggleDelete}>Delete Post</Button>
             </div>
+
+
 
             <Modal isOpen={editModal} toggle={toggleEdit}>
                 <ModalBody>
@@ -163,8 +179,36 @@ const PostDetail = () => {
                 </ModalBody>
             </Modal>
 
+            <Modal isOpen={deleteModal} toggle={toggleDelete}>
+                <ModalBody>
+                    <div className="form-group">
+                        <h3>Do you want to delete the post "{post.title}"?</h3>
+                        <div className="">
+                            <Button
+                                type="submit"
+                                size="sm"
+                                color="info"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    deletePost(post.id).then(() => history.push(`/`));
+                                }}
+                                className="btn mt-4"
+                            >
+                                Yes
+              </Button>
+                            <Button
+                                type="submit"
+                                size="sm"
+                                color="info"
+                                onClick={toggleDelete}
+                            >
+                                No
+              </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+
         </>
     );
 };
-
-export default PostDetail;

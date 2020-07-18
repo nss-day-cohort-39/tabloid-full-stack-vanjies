@@ -6,10 +6,12 @@ using Tabloid.Data;
 using Tabloid.Models;
 
 namespace Tabloid.Repositories {
-    public class PostRepository {
+    public class PostRepository
+    {
         private readonly ApplicationDbContext _context;
 
-        public PostRepository (ApplicationDbContext context) {
+        public PostRepository(ApplicationDbContext context)
+        {
             _context = context;
         }
         public List<Post> GetAll () {
@@ -21,23 +23,26 @@ namespace Tabloid.Repositories {
             return All;
         }
 
-        public void Add (Post post) {
-            _context.Add (post);
-            _context.SaveChanges ();
+        public void Add(Post post)
+        {
+            _context.Add(post);
+            _context.SaveChanges();
         }
 
-        public Post GetById (int id) {
-            return _context.Post.Include (p => p.UserProfile)
-                .Include (p => p.Category)
-                .FirstOrDefault (p => p.Id == id);
+        public Post GetById(int id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.Id == id);
         }
 
-        public List<Post> GetByFirebaseUserId (string id) {
-            return _context.Post.Include (p => p.UserProfile)
-                .Include (p => p.Category)
-                .Where (p => p.UserProfile.FirebaseUserId == id)
-                .OrderBy (p => p.CreateDateTime)
-                .ToList ();
+        public List<Post> GetByFirebaseUserId(string id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .Where(p => p.UserProfile.FirebaseUserId == id)
+                .OrderBy(p => p.CreateDateTime)
+                .ToList();
         }
 
         public void Update(Post post)
@@ -46,5 +51,12 @@ namespace Tabloid.Repositories {
             _context.SaveChanges();
         }
 
+
+        public void Delete(int id)
+        {
+            var post = GetById(id);
+            _context.Post.Remove(post);
+            _context.SaveChanges();
+        }
     }
 }

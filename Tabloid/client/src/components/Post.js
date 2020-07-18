@@ -39,29 +39,32 @@ const Post = ({ post }) => {
       imageLocation: imageLocation,
       publishDateTime: publishDateTime,
       createDateTime: post.createDateTime
-      
+
     });
     toggleEdit();
   }
+
+  const { deletePost } = useContext(PostContext)
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const toggleDelete = () => {
+    setDeleteModal(!deleteModal)
+  };
+
 
   return (
     <>
 
       <Card className="m-4">
-        <p className="text-left px-2">Posted by: {post.userProfile.displayName}
-
-        </p>
+        <p className="text-left px-2">Posted by: {post.userProfile.displayName}</p>
         <CardBody>
           <Link to={`/posts/${post.id}`}>
             <strong>{post.title}</strong>s
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
-        {/* {post.userProfileId === theUserProfile.id ? <Button onClick={toggleEdit}>Edit</Button> : null } */}
         {post.userProfileId === theUserProfile.id && <Button onClick={toggleEdit}>Edit</Button>}
-        {/* <Button onClick={toggleEdit}>Edit</Button> */}
-        
-        
+        {post.userProfileId === theUserProfile.id && <Button onClick={toggleDelete}>Delete</Button>}
       </Card>
 
       <Modal isOpen={editModal} toggle={toggleEdit}>
@@ -152,6 +155,38 @@ const Post = ({ post }) => {
               >
                 Save
       </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
+
+
+
+
+
+      <Modal isOpen={deleteModal} toggle={toggleDelete}>
+        <ModalBody>
+          <div className="form-group">
+            <h3>
+              Do you want to delete the post "{post.title}"?
+            </h3>
+            <div className="">
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  deletePost(post.id)
+                }
+                }
+                className="btn mt-4"
+              >
+                Yes
+              </Button>
+              <Button
+                type="submit"
+                size="sm"
+                color="info"
+                onClick={toggleDelete}
+              >No</Button>
             </div>
           </div>
         </ModalBody>

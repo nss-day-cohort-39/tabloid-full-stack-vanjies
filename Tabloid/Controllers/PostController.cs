@@ -6,8 +6,8 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers {
-    [Route ("api/[controller]")]
     [Authorize]
+    [Route ("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase {
         private readonly PostRepository _postRepository;
@@ -67,5 +67,14 @@ namespace Tabloid.Controllers {
             return NoContent();
         }
 
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postRepository.Delete(id);
+            return NoContent();
+        }
     }
+
+
 }
