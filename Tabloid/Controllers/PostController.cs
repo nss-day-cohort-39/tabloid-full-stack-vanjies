@@ -12,9 +12,11 @@ namespace Tabloid.Controllers {
     public class PostController : ControllerBase {
         private readonly PostRepository _postRepository;
         private readonly UserProfileRepository _userProfileRepository;
+     
         public PostController (ApplicationDbContext context) {
             _postRepository = new PostRepository (context);
             _userProfileRepository = new UserProfileRepository (context);
+            
         }
 
         //getting the authorized user's 
@@ -45,6 +47,17 @@ namespace Tabloid.Controllers {
                 return NotFound ();
             }
             return Ok (post);
+        }
+
+        [HttpGet("getbycategory/{id}")]
+        public IActionResult GetPostByCategoryId(int id)
+        {
+            var post = _postRepository.GetPostByCategoryId(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
         }
 
         [HttpGet ("getbyuser")]

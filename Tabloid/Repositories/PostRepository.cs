@@ -43,6 +43,16 @@ namespace Tabloid.Repositories {
                 .ToList();
         }
 
+        public List<Post> GetPostByCategoryId(int id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .Where(p => p.CategoryId == id)
+                .ToList();
+        }
+
+
+
         public void Update(Post post)
         {
             _context.Entry(post).State = EntityState.Modified;
