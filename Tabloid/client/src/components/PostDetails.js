@@ -47,7 +47,6 @@ const PostDetail = () => {
             isApproved: true
 
         }
-        console.log(thePost);
         updatePost(thePost);
     };
 

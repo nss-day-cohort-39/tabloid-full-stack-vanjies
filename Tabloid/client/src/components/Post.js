@@ -4,12 +4,17 @@ import { Link } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
 import { CategoryContext } from "../providers/CategoryProvider";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import { useHistory } from "react-router-dom";
+
 
 //using the Card component that comes with reactstrap to organize some of the post details
 const Post = ({ post }) => {
+  const history = useHistory();
+
   const { categories, getAllCategories } = useContext(CategoryContext);
   const { userProfile } = useContext(UserProfileContext);
   const theUserProfile = JSON.parse(userProfile)
+  
 
 
   useEffect(() => {
@@ -40,8 +45,9 @@ const Post = ({ post }) => {
       publishDateTime: publishDateTime,
       createDateTime: post.createDateTime
 
-    });
-    toggleEdit();
+    }).then(() => history.push(`/posts/${post.id}`))
+  
+    
   }
 
   const { deletePost } = useContext(PostContext)
