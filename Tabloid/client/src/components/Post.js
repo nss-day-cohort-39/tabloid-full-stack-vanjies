@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
-  const [categoryId, setCategoryId] = useState(post.category.name);
+  const [categoryId, setCategoryId] = useState(post.category.id);
   const [imageLocation, setImageLocation] = useState(post.imageLocation);
   const [publishDateTime, setPublishDateTime] = useState(post.publishDateTime);
 

@@ -55,6 +55,8 @@ namespace Tabloid.Repositories {
         public void Delete(int id)
         {
             var post = GetById(id);
+
+
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
