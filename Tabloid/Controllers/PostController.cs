@@ -6,7 +6,6 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 namespace Tabloid.Controllers {
-    [Authorize]
     [Route ("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase {
@@ -22,13 +21,12 @@ namespace Tabloid.Controllers {
             var firebaseUserId = User.FindFirst (ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId (firebaseUserId);
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult Get () {
             return Ok (_postRepository.GetAll ());
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult Post (Post post) {
             var currentUser = GetCurrentUserProfile ();
@@ -37,7 +35,7 @@ namespace Tabloid.Controllers {
             _postRepository.Add (post);
             return CreatedAtAction ("Get", new { id = post.Id }, post);
         }
-
+        [Authorize]
         [HttpGet ("{id}")]
         public IActionResult Get (int id) {
             var post = _postRepository.GetById (id);

@@ -15,8 +15,11 @@ namespace Tabloid.Repositories {
         }
 
         public List<Category> GetAll () {
-            var All = _context.Category.OrderBy (p => p.Name).ToList ();
-            return All;
+            return _context.Category
+                .Where(c => c.Active == true)
+                .OrderBy(c => c.Name)
+                .ToList ();
+            
         }
 
         public void Add (Category category) {
@@ -36,8 +39,7 @@ namespace Tabloid.Repositories {
         public void Delete(int id)
         {
             var category = GetById(id);
-            category.isActive = false;
-            _context.Entry(category).Property("isActive").IsModified = false;
+            category.Active = false;
             _context.SaveChanges();
         }
 
