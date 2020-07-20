@@ -81,6 +81,7 @@ export const PostProvider = (props) => {
     );
 
   const deletePost = (id) => {
+    debugger;
     return getToken().then((token) =>
       fetch(`${apiUrl}/${id}`, {
         method: "DELETE",

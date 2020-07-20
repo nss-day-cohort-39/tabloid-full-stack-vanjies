@@ -6,22 +6,19 @@ import { CategoryContext } from "../providers/CategoryProvider";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { useHistory } from "react-router-dom";
 
-
 //using the Card component that comes with reactstrap to organize some of the post details
-const Post = ({ post }) => {
+const Post = ({ post, setCategoryPostModal, categoryPostModal }) => {
   const history = useHistory();
 
   const { categories, getAllCategories } = useContext(CategoryContext);
   const { userProfile } = useContext(UserProfileContext);
-  const theUserProfile = JSON.parse(userProfile)
-  
-
+  const theUserProfile = JSON.parse(userProfile);
 
   useEffect(() => {
     getAllCategories();
   }, []);
 
-  const { updatePost } = useContext(PostContext)
+  const { updatePost } = useContext(PostContext);
 
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
@@ -32,7 +29,7 @@ const Post = ({ post }) => {
   const [editModal, setEditModal] = useState(false);
 
   const toggleEdit = () => {
-    setEditModal(!editModal)
+    setEditModal(!editModal);
   };
 
   const submitForm = () => {
@@ -43,14 +40,11 @@ const Post = ({ post }) => {
       categoryId: parseInt(categoryId),
       imageLocation: imageLocation,
       publishDateTime: publishDateTime,
-      createDateTime: post.createDateTime
+      createDateTime: post.createDateTime,
+    }).then(() => history.push(`/posts/${post.id}`));
+  };
 
-    }).then(() => history.push(`/posts/${post.id}`))
-  
-    
-  }
-
-  const { deletePost } = useContext(PostContext)
+  const { deletePost } = useContext(PostContext);
   const [deleteModal, setDeleteModal] = useState(false);
 
   const toggleDelete = () => {
@@ -59,17 +53,22 @@ const Post = ({ post }) => {
 
   return (
     <>
-
       <Card className="m-4">
-        <p className="text-left px-2">Posted by: {post.userProfile.displayName}</p>
+        <p className="text-left px-2">
+          Posted by: {post.userProfile.displayName}
+        </p>
         <CardBody>
           <Link to={`/posts/${post.id}`}>
             <strong>{post.title}</strong>
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
-        {post.userProfileId === theUserProfile.id && <Button onClick={toggleEdit}>Edit</Button>}
-        {post.userProfileId === theUserProfile.id && <Button onClick={toggleDelete}>Delete</Button>}
+        {post.userProfileId === theUserProfile.id && (
+          <Button onClick={toggleEdit}>Edit</Button>
+        )}
+        {post.userProfileId === theUserProfile.id && (
+          <Button onClick={toggleDelete}>Delete</Button>
+        )}
       </Card>
 
       <Modal isOpen={editModal} toggle={toggleEdit}>
@@ -79,7 +78,7 @@ const Post = ({ post }) => {
             <input
               type="text"
               id="title"
-              onChange={e => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               required
               autoFocus
               className="form-control mt-4"
@@ -90,7 +89,7 @@ const Post = ({ post }) => {
             <input
               type="text-area"
               id="content"
-              onChange={e => setContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
               required
               autoFocus
               className="form-control mt-4"
@@ -100,15 +99,17 @@ const Post = ({ post }) => {
             <label htmlFor="category">Category: </label>
             <select
               id="category"
-              onChange={e => setCategoryId(e.target.value)}
+              onChange={(e) => setCategoryId(e.target.value)}
               required
               autoFocus
               className="form-control mt-4"
               defaultValue={post.category.id}
             >
-              <option key="0" value="0">Select A Category</option>
-              {categories.map(c => (
-                <option value={c.id} key={c.id} >
+              <option key="0" value="0">
+                Select A Category
+              </option>
+              {categories.map((c) => (
+                <option value={c.id} key={c.id}>
                   {c.name}
                 </option>
               ))}
@@ -118,7 +119,7 @@ const Post = ({ post }) => {
             <input
               type="text"
               id="imageLocation"
-              onChange={e => setImageLocation(e.target.value)}
+              onChange={(e) => setImageLocation(e.target.value)}
               autoFocus
               className="form-control mt-4"
               defaultValue={post.imageLocation}
@@ -131,10 +132,8 @@ const Post = ({ post }) => {
               id="new=post-publish-date-time"
               placeholder="Pick a Date"
               defaultValue={post.publishDateTime.substr(0, 10)}
-              onChange={e => setPublishDateTime(e.target.value)}
+              onChange={(e) => setPublishDateTime(e.target.value)}
             />
-
-
 
             <div className="">
               <Button
@@ -144,30 +143,23 @@ const Post = ({ post }) => {
                 onClick={(evt) => {
                   evt.preventDefault();
                   if (!content) {
-                    window.alert("You forgot to enter content!")
-                  }
-                  else if (!title) {
-                    window.alert("You forgot a title!")
-                  }
-                  else if (categoryId === "0") {
-                    window.alert("You forgot a category!")
-                  }
-                  else {
+                    window.alert("You forgot to enter content!");
+                  } else if (!title) {
+                    window.alert("You forgot a title!");
+                  } else if (categoryId === "0") {
+                    window.alert("You forgot a category!");
+                  } else {
                     submitForm(post);
                   }
                 }}
                 className="btn mt-4"
               >
                 Save
-      </Button>
+              </Button>
             </div>
           </div>
         </ModalBody>
       </Modal>
-
-
-
-
 
       <Modal isOpen={deleteModal} toggle={toggleDelete}>
         <ModalBody>
@@ -177,7 +169,11 @@ const Post = ({ post }) => {
               <Button
                 onClick={(e) => {
                   e.preventDefault();
-                  deletePost(post.id);
+                  deletePost(post.id)
+                    .then(() => {
+                      toggleDelete();
+                    })
+                    .then(() => setCategoryPostModal(!categoryPostModal)); //setting the category post modal and toggling it
                 }}
                 className="btn mt-4"
               >
@@ -195,7 +191,6 @@ const Post = ({ post }) => {
           </div>
         </ModalBody>
       </Modal>
-
     </>
   );
 };

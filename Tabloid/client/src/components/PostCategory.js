@@ -34,7 +34,12 @@ const Category = ({ category }) => {
           <div className="row justify-content-center">
             <div className="cards-column">
               {postsByCategory.map((post) => (
-                <Post key={post.id} post={post} />
+                <Post
+                  key={post.id}
+                  post={post}
+                  setCategoryPostModal={setCategoryPostModal} //passing down to post to be utilized to toggle the post modal on click
+                  categoryPostModal={categoryPostModal}
+                />
               ))}
             </div>
           </div>
