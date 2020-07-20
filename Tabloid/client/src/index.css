@@ -8,11 +8,16 @@ main {
   margin-top: -16px;
   margin-left: -16px;
 }
- 
+
 p {
-    line-height: 2rem;
+  line-height: 2rem;
 }
 
 .post p {
     white-space: pre-wrap;
 }
+.post-details-content {
+  font-family: Arial, sans-erif;
+  white-space: pre-wrap;
+}
+  
