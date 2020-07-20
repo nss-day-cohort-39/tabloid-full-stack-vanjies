@@ -21,6 +21,32 @@ export const CategoryProvider = (props) => {
         .then(setCategories));
   }
 
+  const addCategory = (category) =>
+  getToken().then((token) =>
+    fetch(`${apiUrl}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(category)
+    }).then(resp => {
+      return resp.json()
+    }
+    ));
+
+    const updateCategory = (category) =>
+    getToken().then((token) =>
+      fetch(`${apiUrl}/${category.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(category)
+      }).then(getAllCategories)
+      );
+
   const getCategoryById = (id) =>
     getToken().then((token) =>
       fetch(`/api/category/${id}`, {
@@ -30,20 +56,8 @@ export const CategoryProvider = (props) => {
         }
       }).then((res) => res.json()));
 
-  const deleteCategory = (id) => {
-    return getToken().then((token) =>
-      fetch(`${apiUrl}/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }).then(getAllCategories)
-    );
-  };    
-
   return (
-    <CategoryContext.Provider value={{ categories, getAllCategories, getCategoryById, deleteCategory }}>
+    <CategoryContext.Provider value={{ categories, getAllCategories, getCategoryById, addCategory, updateCategory }}>
       {props.children}
     </CategoryContext.Provider>
   );

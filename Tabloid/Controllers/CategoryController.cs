@@ -37,6 +37,17 @@ namespace Tabloid.Controllers {
             }
             return Ok (category);
         }
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Category category)
+        {
+            if (id != category.Id)
+            {
+                return BadRequest();
+            }
+
+            _categoryRepository.Update(category);
+            return NoContent();
+        }
 
         // Currently, categories can only be deleted while not attached to a Post. Need a post repository method to pull the category by Id and remove the connection 
 
