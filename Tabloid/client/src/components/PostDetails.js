@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
 import { Button, Modal, ModalBody } from "reactstrap";
 import { useHistory } from "react-router-dom";
@@ -38,6 +38,10 @@ const PostDetail = () => {
           </div>
         </div>
         <Button onClick={toggleDelete}>Delete Post</Button>
+
+        <Link to={`/getbypost/${id}`}>
+            <p>View Comments</p>
+          </Link>
       </div>
 
       <Modal isOpen={deleteModal} toggle={toggleDelete}>

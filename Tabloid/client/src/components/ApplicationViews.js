@@ -11,6 +11,7 @@ import CategoryList from "./CategoryList";
 import TagList from "./TagList";
 import NewTagForm from "./NewTagForm";
 import NewCategoryForm from "./NewCategoryForm";
+import CommentList from "./CommentList";
 
 
 export default function ApplicationViews() {
@@ -58,6 +59,11 @@ export default function ApplicationViews() {
         <Route path={`/posts/:id`}>
         {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
+
+        <Route path={`/comment/getbypost/:id`}>
+        {isLoggedIn ? <CommentList /> : <Redirect to="/login" />}
+        </Route>
+        
       </Switch>
     </main>
   );
