@@ -8,6 +8,7 @@ export const PostProvider = (props) => {
   const apiUrl = "/api/post";
   const [posts, setPosts] = useState([]);
 
+
   const { getToken } = useContext(UserProfileContext);
 
   const getAllPosts = () =>
@@ -63,7 +64,7 @@ export const PostProvider = (props) => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(post)
-    }).then(getAllPosts)
+    }).then(getPostById(post.id))
     );
 
   const deletePost = (id) => {
@@ -82,7 +83,7 @@ export const PostProvider = (props) => {
 
 
   return (
-    <PostContext.Provider value={{ posts, getAllPosts, getPostsByUser, getPostById, addPost, updatePost, deletePost }}>
+    <PostContext.Provider value={{ posts, getAllPosts, getPostsByUser, getPostById, addPost, updatePost, deletePost, updatePost }}>
       {props.children}
     </PostContext.Provider>
   );

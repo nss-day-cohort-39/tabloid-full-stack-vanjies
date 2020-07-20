@@ -14,7 +14,7 @@ const PostDetail = () => {
 
     const { id } = useParams();
 
-    const [post, setPost] = useState({ imageLocation: "", category: {}, userProfile: {}, publishDateTime: "" });
+    const [post, setPost] = useState({ imageLocation: "", userProfile: {}, publishDateTime: "" });
 
   
     const titleRef = useRef();
@@ -51,7 +51,9 @@ const PostDetail = () => {
 
         }
         updatePost(thePost)
-        .then(() => setPost(thePost))
+        .then(() => getPostById(id))
+        .then((post) => {
+            setPost(post)});
     };
 
     useEffect(() => {
@@ -154,13 +156,13 @@ const PostDetail = () => {
                                 color="info"
                                 onClick={(evt) => {
                                     evt.preventDefault();
-                                    if (contentRef === "") {
+                                    if (!contentRef.current.value) {
                                         window.alert("You forgot to enter content!")
                                     }
-                                    else if (titleRef === "") {
+                                    else if (!titleRef.current.value) {
                                         window.alert("You forgot a title!")
                                     }
-                                    else if (categoryIdRef === "0") {
+                                    else if (!categoryIdRef.current.value) {
                                         window.alert("You forgot a category!")
                                     }
                                     else {
