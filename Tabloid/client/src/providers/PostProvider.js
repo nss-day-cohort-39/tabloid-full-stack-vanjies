@@ -54,7 +54,6 @@ export const PostProvider = (props) => {
         }
       }).then(resp => resp.json()).then(setPosts));
   };
-
   const updatePost = (post) =>
   getToken().then((token) =>
     fetch(`${apiUrl}/${post.id}`, {
