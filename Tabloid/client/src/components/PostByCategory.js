@@ -4,9 +4,7 @@ import { CategoryContext } from "../providers/CategoryProvider";
 import { PostContext } from "../providers/CategoryProvider";
 import PostCategory from "./PostCategory";
 const PostByCategory = () => {
-  const { getAllCategories, getCategoryById, categories } = useContext(
-    CategoryContext
-  );
+  const { getAllCategories, categories } = useContext(CategoryContext);
 
   useEffect(() => {
     getAllCategories();
