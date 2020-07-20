@@ -65,7 +65,7 @@ const Post = ({ post }) => {
         <p className="text-left px-2">Posted by: {post.userProfile.displayName}</p>
         <CardBody>
           <Link to={`/posts/${post.id}`}>
-            <strong>{post.title}</strong>s
+            <strong>{post.title}</strong>
           </Link>
           <p>{post.category.name}</p>
         </CardBody>
