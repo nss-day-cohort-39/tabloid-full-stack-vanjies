@@ -30,7 +30,8 @@ namespace Tabloid.Repositories {
         public void Delete(int id)
         {
             var category = GetById(id);
-            _context.Category.Remove(category);
+            category.isActive = false;
+            _context.Entry(category).Property("isActive").IsModified = false;
             _context.SaveChanges();
         }
 
