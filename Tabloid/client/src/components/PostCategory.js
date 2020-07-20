@@ -8,13 +8,19 @@ import { PostContext } from "../providers/PostProvider";
 //using the Card component that comes with reactstrap to organize some of the post details
 const Category = ({ category }) => {
   const { categories } = useContext(CategoryContext);
-  const { getPostsByCategory } = useContext(PostContext);
+  const { getPostsByCategory, posts, getAllPosts, categoryPosts } = useContext(
+    PostContext
+  );
   const [categoryPostModal, setCategoryPostModal] = useState(false);
-  const [posts, setPosts] = useState();
+  // const [posts, setPosts] = useState();
   const { id } = useParams();
 
+  // useEffect(() => {
+  //   getPostsByCategory(id).then(setPosts);
+  // }, []);
+
   useEffect(() => {
-    getPostsByCategory(id).then(setPosts);
+    getPostsByCategory();
   }, []);
 
   const toggleCategoryPosts = () => {
@@ -32,7 +38,7 @@ const Category = ({ category }) => {
         <ModalBody>
           <div className="row justify-content-center">
             <div className="cards-column">
-              {posts.map((post) => (
+              {categoryPosts.map((post) => (
                 <Post key={post.categoryid} post={post} />
               ))}
             </div>

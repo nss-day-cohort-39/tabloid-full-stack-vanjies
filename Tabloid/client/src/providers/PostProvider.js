@@ -6,6 +6,7 @@ export const PostContext = React.createContext();
 export const PostProvider = (props) => {
   const apiUrl = "/api/post";
   const [posts, setPosts] = useState([]);
+  const [categoryPosts, setCategoryPosts] = useState([]);
 
   const { getToken } = useContext(UserProfileContext);
 
@@ -28,7 +29,9 @@ export const PostProvider = (props) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then((res) => res.json())
+      })
+        .then((res) => res.json())
+        .then(setCategoryPosts)
     );
 
   const addPost = (post) =>
@@ -87,6 +90,7 @@ export const PostProvider = (props) => {
     <PostContext.Provider
       value={{
         posts,
+        categoryPosts,
         getAllPosts,
         getPostsByUser,
         getPostById,
