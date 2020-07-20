@@ -10,29 +10,20 @@ export const CommentProvider = (props) => {
 
   const { getToken } = useContext(UserProfileContext);
 
-  const getAllComments = () =>
-    getToken().then((token) =>
-      fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(resp => resp.json())
-        .then(setComments));
-
-  const getCommentById = (id) =>
-    getToken().then((token) =>
-      fetch(`/api/comment/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then((res) => res.json()));
+  const getComment = (id) => {
+    return getToken().then((token) =>
+        fetch(apiUrl + `/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(resp => resp.json()));
+};
 
 
       const getCommentsByPostId = (id) =>
       getToken().then((token) =>
-        fetch(`/api/comment/getbypost/${id}`, {
+        fetch(apiUrl + `/getbypost/${id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -44,7 +35,7 @@ export const CommentProvider = (props) => {
 
 
   return (
-    <CommentContext.Provider value={{ comments, getAllComments,  getCommentById, getCommentsByPostId }}>
+    <CommentContext.Provider value={{ comments, getComment, getCommentsByPostId }}>
       {props.children}
     </CommentContext.Provider>
   );

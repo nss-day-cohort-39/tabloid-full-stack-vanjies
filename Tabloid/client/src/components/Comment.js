@@ -9,8 +9,8 @@ import { UserProfileContext } from "../providers/UserProfileProvider";
 //using the Card component that comes with reactstrap to organize some of the post details
 const Comment = ({ comment }) => {
 
-  const [modal, setModal] = useState(false)
-  const toggle = () => setModal(!modal)
+  // const [modal, setModal] = useState(false)
+  // const toggle = () => setModal(!modal)
   
   return (
     <>

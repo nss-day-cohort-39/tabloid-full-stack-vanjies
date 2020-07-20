@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CommentContext } from "../providers/CommentProvider";
 import Comment from "./Comment";
 import { PostContext } from "../providers/PostProvider";
@@ -6,15 +6,16 @@ import { useParams } from "react-router-dom";
 
 
 const CommentList = () => {
- 
-  const { comments, getCommentsByPost } = useContext(CommentContext);
-  const { post, getPost } = useContext(PostContext);
+
+  const { post, setPost } = useState({})
+  const { comments, getCommentsByPostId } = useContext(CommentContext)
+  const { getPost } = useContext(PostContext)
 
   const {id} = useParams();
 
   useEffect(() => {
-    getCommentsByPost(id);
-    getPost(id)
+    getCommentsByPostId(id);
+    getPost(id).then(setPost)
   }, []);
 
   return (
@@ -22,7 +23,7 @@ const CommentList = () => {
       <div className="row justify-content-center">
         <div className="cards-column">
           {comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment key={comment.id} comment={comment} postId={id} />
           ))}
         </div>
       </div>

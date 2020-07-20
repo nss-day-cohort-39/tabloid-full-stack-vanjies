@@ -7,14 +7,23 @@ using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
     {
         private readonly CommentRepository _commentRepo;
+        private readonly UserProfileRepository _userProfileRepository;
         public CommentController(ApplicationDbContext context)
         {
             _commentRepo = new CommentRepository(context);
+            _userProfileRepository = new UserProfileRepository(context);
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_commentRepo.GetAll());
         }
 
         [HttpGet("{id}")]
@@ -32,6 +41,12 @@ namespace Tabloid.Controllers
         public IActionResult GetByPost(int id)
         {
             return Ok(_commentRepo.GetByPostId(id));
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

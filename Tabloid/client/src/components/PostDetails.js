@@ -39,7 +39,7 @@ const PostDetail = () => {
         </div>
         <Button onClick={toggleDelete}>Delete Post</Button>
 
-        <Link to={`/getbypost/${id}`}>
+        <Link to={`/comments/${id}`}>
             <p>View Comments</p>
           </Link>
       </div>
