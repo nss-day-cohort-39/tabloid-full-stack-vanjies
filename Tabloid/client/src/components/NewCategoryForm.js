@@ -19,7 +19,8 @@ export default function NewCategoryForm() {
         else 
         {
             const newCategory = {
-                name: name
+                name: name,
+                active: true
             }
             addCategory(newCategory)
                 .then(() => history.push("/category"))

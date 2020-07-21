@@ -84,7 +84,7 @@ const Tag = ({ tag }) => {
                 className="btn mt-4"
               >
                 Yes
-                      </Button>
+              </Button>
               <Button
                 type="submit"
                 size="sm"
