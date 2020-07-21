@@ -1,10 +1,14 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Repositories;
-
 namespace Tabloid.Controllers
 {
     [Authorize]
@@ -47,6 +51,16 @@ namespace Tabloid.Controllers
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult Post(Comment comment)
+        {
+            var currentUser = GetCurrentUserProfile();
+            comment.UserProfileId = currentUser.Id;
+
+            _commentRepo.Add(comment);
+            return CreatedAtAction("Get", new { id = comment.Id }, comment);
         }
     }
 }

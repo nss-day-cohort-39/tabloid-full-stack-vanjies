@@ -14,9 +14,12 @@ namespace Tabloid.Repositories {
         {
             _context = context;
         }
-        public List<Post> GetAll()
-        {
-            var All = _context.Post.Include(p => p.UserProfile).Include(p => p.Category).Where(p => p.IsApproved == true && p.PublishDateTime < DateTime.Now).OrderByDescending(p => p.PublishDateTime).ToList();
+        public List<Post> GetAll () {
+            var All = _context.Post.Include (p => p.UserProfile)
+                                   .Include (p => p.Category)
+                                   .Where (p => p.IsApproved == true && p.PublishDateTime < DateTime.Now)
+                                   .OrderByDescending (p => p.PublishDateTime)
+                                   .ToList ();
             return All;
         }
 
@@ -33,6 +36,7 @@ namespace Tabloid.Repositories {
                 .FirstOrDefault(p => p.Id == id);
         }
 
+
         public List<Post> GetByFirebaseUserId(string id)
         {
             return _context.Post.Include(p => p.UserProfile)
@@ -42,17 +46,32 @@ namespace Tabloid.Repositories {
                 .ToList();
         }
 
+        public List<Post> GetPostByCategoryId(int id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .Where(p => p.CategoryId == id)
+                .ToList();
+        }
+
+
+
         public void Update(Post post)
         {
             _context.Entry(post).State = EntityState.Modified;
             _context.SaveChanges();
         }
 
+
         public void Delete(int id)
         {
             var post = GetById(id);
+
+
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+
+       
     }
 }
