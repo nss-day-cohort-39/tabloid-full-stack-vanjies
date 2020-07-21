@@ -25,6 +25,7 @@ const Category = ({ category }) => {
     updateCategory({
       id: category.id,
       name: name,
+      Active: true
     });
     toggleEdit();
   }
