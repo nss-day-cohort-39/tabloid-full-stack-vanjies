@@ -40,10 +40,7 @@ export const CommentProvider = (props) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(comment)
-      }).then((resp) => {
-        return resp.json()
-      }
-      ));
+      }));
 
 
   
