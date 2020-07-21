@@ -28,7 +28,12 @@ const CommentList = () => {
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} postId={id} />
           ))}
-           <Link to={'/'}>Back to Posts</Link>
+          <br></br>
+          <br></br>
+          <br></br>
+          <Link to={`/`} type="button" class="btn btn-info" value="Back to Posts" size="sm">
+            Back to Posts
+          </Link>
         </div>
       </div>
     </div>
