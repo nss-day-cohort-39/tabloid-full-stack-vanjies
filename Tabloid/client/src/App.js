@@ -13,6 +13,7 @@ function App() {
     <Router>
       <UserProfileProvider>
         <PostProvider>
+          <CommentProvider>
           <CategoryProvider>
             <TagProvider>
               <CommentProvider>
@@ -21,6 +22,7 @@ function App() {
               </CommentProvider>
             </TagProvider>
           </CategoryProvider>
+          </CommentProvider>
         </PostProvider>
       </UserProfileProvider>
     </Router>
