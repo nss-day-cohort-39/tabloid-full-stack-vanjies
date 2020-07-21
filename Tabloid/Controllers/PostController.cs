@@ -50,37 +50,41 @@ namespace Tabloid.Controllers {
             return Ok (post);
         }
 
+        [HttpGet ("getbycategory/{id}")]
+        public IActionResult GetPostByCategoryId (int id) {
+            var post = _postRepository.GetPostByCategoryId (id);
+            if (post == null) {
+                return NotFound ();
+            }
+            return Ok (post);
+        }
+
         [HttpGet ("getbyuser")]
         public IActionResult GetByUser () {
             var firebaseUserId = User.FindFirst (ClaimTypes.NameIdentifier).Value;
             return Ok (_postRepository.GetByFirebaseUserId (firebaseUserId));
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Post post)
-        {
-            if (id != post.Id)
-            {
-                return BadRequest();
+        [HttpPut ("{id}")]
+        public IActionResult Put (int id, Post post) {
+            if (id != post.Id) {
+                return BadRequest ();
             }
-            var currentUser = GetCurrentUserProfile();
+            var currentUser = GetCurrentUserProfile ();
             post.UserProfileId = currentUser.Id;
 
-            _postRepository.Update(post);
-            return NoContent();
+            _postRepository.Update (post);
+            return NoContent ();
         }
 
+        [HttpDelete ("{id}")]
+        public IActionResult Delete (int id) {
+            var PostComments = _commentRepository.GetCommentsByPost (id);
+            PostComments.ForEach (pc => _commentRepository.Delete (pc));
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            var PostComments = _commentRepository.GetCommentsByPost(id);
-            PostComments.ForEach(pc => _commentRepository.Delete(pc));
-
-            _postRepository.Delete(id);
-            return NoContent();
+            _postRepository.Delete (id);
+            return NoContent ();
         }
     }
-
 
 }
