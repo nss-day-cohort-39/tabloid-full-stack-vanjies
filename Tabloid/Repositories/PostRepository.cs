@@ -36,6 +36,7 @@ namespace Tabloid.Repositories {
                 .FirstOrDefault(p => p.Id == id);
         }
 
+
         public List<Post> GetByFirebaseUserId(string id)
         {
             return _context.Post.Include(p => p.UserProfile)
@@ -44,6 +45,16 @@ namespace Tabloid.Repositories {
                 .OrderBy(p => p.CreateDateTime)
                 .ToList();
         }
+
+        public List<Post> GetPostByCategoryId(int id)
+        {
+            return _context.Post.Include(p => p.UserProfile)
+                .Include(p => p.Category)
+                .Where(p => p.CategoryId == id)
+                .ToList();
+        }
+
+
 
         public void Update(Post post)
         {
@@ -60,5 +71,7 @@ namespace Tabloid.Repositories {
             _context.Post.Remove(post);
             _context.SaveChanges();
         }
+
+       
     }
 }

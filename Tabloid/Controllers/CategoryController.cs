@@ -49,5 +49,14 @@ namespace Tabloid.Controllers {
             return NoContent();
         }
 
+        // Currently, categories can only be deleted while not attached to a Post. Need a post repository method to pull the category by Id and remove the connection 
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _categoryRepository.Delete(id);
+            return NoContent();
+        }
+
     }
 }
