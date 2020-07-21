@@ -12,9 +12,12 @@ namespace Tabloid.Controllers {
     public class PostController : ControllerBase {
         private readonly PostRepository _postRepository;
         private readonly UserProfileRepository _userProfileRepository;
+        private readonly CommentRepository _commentRepository;
+
         public PostController (ApplicationDbContext context) {
             _postRepository = new PostRepository (context);
             _userProfileRepository = new UserProfileRepository (context);
+            _commentRepository = new CommentRepository (context);
         }
 
         //getting the authorized user's 
@@ -60,14 +63,20 @@ namespace Tabloid.Controllers {
             {
                 return BadRequest();
             }
+            var currentUser = GetCurrentUserProfile();
+            post.UserProfileId = currentUser.Id;
 
             _postRepository.Update(post);
             return NoContent();
         }
 
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var PostComments = _commentRepository.GetCommentsByPost(id);
+            PostComments.ForEach(pc => _commentRepository.Delete(pc));
+
             _postRepository.Delete(id);
             return NoContent();
         }

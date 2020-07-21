@@ -14,9 +14,12 @@ namespace Tabloid.Repositories {
         {
             _context = context;
         }
-        public List<Post> GetAll()
-        {
-            var All = _context.Post.Include(p => p.UserProfile).Include(p => p.Category).Where(p => p.IsApproved == true && p.PublishDateTime < DateTime.Now).OrderByDescending(p => p.PublishDateTime).ToList();
+        public List<Post> GetAll () {
+            var All = _context.Post.Include (p => p.UserProfile)
+                                   .Include (p => p.Category)
+                                   .Where (p => p.IsApproved == true && p.PublishDateTime < DateTime.Now)
+                                   .OrderByDescending (p => p.PublishDateTime)
+                                   .ToList ();
             return All;
         }
 
@@ -48,9 +51,12 @@ namespace Tabloid.Repositories {
             _context.SaveChanges();
         }
 
+
         public void Delete(int id)
         {
             var post = GetById(id);
+
+
             _context.Post.Remove(post);
             _context.SaveChanges();
         }

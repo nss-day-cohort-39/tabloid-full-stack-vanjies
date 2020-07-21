@@ -1,76 +1,215 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
+import { Button, Modal, ModalBody } from "reactstrap"
 import { useParams } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
-import { Button, Modal, ModalBody } from "reactstrap";
+import { CategoryContext } from "../providers/CategoryProvider";
 import { useHistory } from "react-router-dom";
 
+
 const PostDetail = () => {
-  const { getPostById } = useContext(PostContext);
-  const [post, setPost] = useState();
-  const { id } = useParams();
-  const history = useHistory();
+    const history = useHistory();
 
-  const { deletePost } = useContext(PostContext);
-  const [deleteModal, setDeleteModal] = useState(false);
+    const { categories, getAllCategories } = useContext(CategoryContext);
+    const { getPostById, updatePost, deletePost } = useContext(PostContext);
 
-  const toggleDelete = () => {
-    setDeleteModal(!deleteModal);
-  };
+    const { id } = useParams();
 
-  useEffect(() => {
-    getPostById(id).then(setPost);
-  }, []);
+    const [post, setPost] = useState({ imageLocation: "", userProfile: {}, publishDateTime: "" });
 
-  if (!post) {
-    return null;
-  }
+  
+    const titleRef = useRef();
+    const contentRef = useRef();
+    const categoryIdRef = useRef();
+    const imageLocationRef = useRef();
+    const publishDateTimeRef = useRef();
 
-  return (
-    <>
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-sm-12 col-lg-6">
-          <div><img src={post.imageLocation} className="post-details-image"/></div>
-            <p className="post-details-title"><b>Post Title: </b> {post.title}</p>
-            <p className="post-details-postedBy"><b>Posted By: </b> {post.userProfile.displayName}</p>
-            <pre className="post-details-content">{post.content}</pre>
-            <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
-          </div>
-        </div>
-        <Button onClick={toggleDelete}>Delete Post</Button>
-      </div>
 
-      <Modal isOpen={deleteModal} toggle={toggleDelete}>
-        <ModalBody>
-          <div className="form-group">
-            <h3>Do you want to delete the post "{post.title}"?</h3>
-            <div className="">
-              <Button
-                type="submit"
-                size="sm"
-                color="info"
-                onClick={(e) => {
-                  e.preventDefault();
-                  deletePost(post.id).then(() => history.push(`/`));
-                }}
-                className="btn mt-4"
-              >
-                Yes
-              </Button>
-              <Button
-                type="submit"
-                size="sm"
-                color="info"
-                onClick={toggleDelete}
-              >
-                No
-              </Button>
+    const [editModal, setEditModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+
+
+    const toggleEdit = () => {
+        setEditModal(!editModal)
+    };
+
+    const toggleDelete = () => {
+        setDeleteModal(!deleteModal);
+    };
+
+    const submitForm = () => {
+
+
+        const thePost = {
+            id: parseInt(id),
+            title: titleRef.current.value,
+            content: contentRef.current.value,
+            categoryId: parseInt(categoryIdRef.current.value),
+            imageLocation: imageLocationRef.current.value,
+            publishDateTime: publishDateTimeRef.current.value,
+            createDateTime: post.createDateTime,
+            isApproved: true
+
+        }
+        updatePost(thePost)
+        .then(() => getPostById(id))
+        .then((post) => {
+            setPost(post)});
+    };
+
+    useEffect(() => {
+        getPostById(id).then((post) => {
+            setPost(post);
+
+
+            getAllCategories();
+        });
+    }, []);
+
+    if (!post) {
+        return null;
+    }
+
+
+    return (
+        <>
+            <div className="container">
+                <div className="row justify-content-center">
+                    <div className="col-sm-12 col-lg-6">
+                        <div><img src={post.imageLocation} className="post-details-image" /></div>
+                        <p className="post-details-title"><b>Post Title: </b> {post.title}</p>
+                        <p className="post-details-postedBy"><b>Posted By: </b> {post.userProfile.displayName}</p>
+                        <pre className="post-details-content">{post.content}</pre>
+                        <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
+                    </div>
+                </div>
+                <Button onClick={toggleEdit}>Edit</Button>
+                <Button onClick={toggleDelete}>Delete Post</Button>
             </div>
-          </div>
-        </ModalBody>
-      </Modal>
-    </>
-  );
-};
 
+
+
+            <Modal isOpen={editModal} toggle={toggleEdit}>
+                <ModalBody>
+                    <div className="form-group">
+                        <label htmlFor="title">Title: </label>
+                        <input
+                            type="text"
+                            id="title"
+                            ref={titleRef}
+                            required
+                            autoFocus
+                            className="form-control mt-4"
+                            defaultValue={post.title}
+                        />
+
+                        <label htmlFor="content">Content: </label>
+                        <input
+                            type="text-area"
+                            id="content"
+                            ref={contentRef}
+                            autoFocus
+                            className="form-control mt-4"
+                            defaultValue={post.content}
+                        />
+
+                        <label htmlFor="category">Category: </label>
+                        <select
+                            id="category"
+                            ref={categoryIdRef}
+                            required
+                            autoFocus
+                            className="form-control mt-4"
+                            defaultValue={post.categoryId}
+                        >
+                            <option key="0" value="0">Select A Category</option>
+                            {categories.map(c => (
+                                <option value={c.id} key={c.id} >
+                                    {c.name}
+                                </option>
+                            ))}
+                        </select>
+
+                        <label htmlFor="imageLocation">Image URL: </label>
+                        <input
+                            type="text"
+                            id="imageLocation"
+                            ref={imageLocationRef}
+                            autoFocus
+                            className="form-control mt-4"
+                            defaultValue={post.imageLocation}
+                        />
+
+                        <label htmlFor="publicationDate">Publication Date: </label>
+                        <input
+                            type="date"
+                            name="publishDateTime"
+                            id="new=post-publish-date-time"
+                            placeholder="Pick a Date"
+                            defaultValue={post.publishDateTime.substr(0, 10)}
+                            ref={publishDateTimeRef}
+                        />
+
+                        <div className="">
+                            <Button
+                                type="submit"
+                                size="sm"
+                                color="info"
+                                onClick={(evt) => {
+                                    evt.preventDefault();
+                                    if (!contentRef.current.value) {
+                                        window.alert("You forgot to enter content!")
+                                    }
+                                    else if (!titleRef.current.value) {
+                                        window.alert("You forgot a title!")
+                                    }
+                                    else if (!categoryIdRef.current.value) {
+                                        window.alert("You forgot a category!")
+                                    }
+                                    else {
+                                        submitForm(post);
+                                        toggleEdit();
+                                    }
+                                }}
+                                className="btn mt-4"
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+
+            <Modal isOpen={deleteModal} toggle={toggleDelete}>
+                <ModalBody>
+                    <div className="form-group">
+                        <h3>Do you want to delete the post "{post.title}"?</h3>
+                        <div className="">
+                            <Button
+                                type="submit"
+                                size="sm"
+                                color="info"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    deletePost(post.id).then(() => history.push(`/`));
+                                }}
+                                className="btn mt-4"
+                            >
+                                Yes
+              </Button>
+                            <Button
+                                type="submit"
+                                size="sm"
+                                color="info"
+                                onClick={toggleDelete}
+                            >
+                                No
+              </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+
+        </>
+    );
+};
 export default PostDetail;
