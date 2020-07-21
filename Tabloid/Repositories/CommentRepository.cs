@@ -21,6 +21,13 @@ namespace Tabloid.Repositories
 
             return All;
         }
+
+        public void Add(Comment comment)
+        {
+            _context.Add(comment);
+            _context.SaveChanges();
+        }
+
         public void Delete(Comment comment)
         {
 

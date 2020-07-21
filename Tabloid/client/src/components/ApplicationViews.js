@@ -11,7 +11,9 @@ import CategoryList from "./CategoryList";
 import TagList from "./TagList";
 import NewTagForm from "./NewTagForm";
 import NewCategoryForm from "./NewCategoryForm";
+import NewCommentForm from "./NewCommentForm";
 import PostByCategory from "./PostByCategory.js";
+
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -56,7 +58,11 @@ export default function ApplicationViews() {
         </Route>
 
         <Route path="/newpost">
-          <NewPostForm />
+        {isLoggedIn ? <NewPostForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/newcomment/:id">
+        {isLoggedIn ? <NewCommentForm /> : <Redirect to="/login" />}
         </Route>
 
         <Route path={`/posts/:id`}>

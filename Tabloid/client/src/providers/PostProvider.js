@@ -103,7 +103,6 @@ export const PostProvider = (props) => {
         addPost,
         updatePost,
         deletePost,
-        updatePost,
         getPostsByCategoryId,
       }}
     >

@@ -36,6 +36,7 @@ const PostDetail = () => {
         setDeleteModal(!deleteModal);
     };
 
+
     const submitForm = () => {
 
 
@@ -82,6 +83,7 @@ const PostDetail = () => {
                         <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
                     </div>
                 </div>
+                <Button onClick={() => history.push(`/newcomment/${post.id}`)} >Add Comment</Button>
                 <Button onClick={toggleEdit}>Edit</Button>
                 <Button onClick={toggleDelete}>Delete Post</Button>
             </div>
