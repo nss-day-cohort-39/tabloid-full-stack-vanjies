@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { PostContext } from "../providers/PostProvider";
 import { CategoryContext } from "../providers/CategoryProvider";
-import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export default function NewPostForm() {
   const history = useHistory();

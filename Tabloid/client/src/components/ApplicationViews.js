@@ -11,6 +11,7 @@ import CategoryList from "./CategoryList";
 import TagList from "./TagList";
 import NewTagForm from "./NewTagForm";
 import NewCategoryForm from "./NewCategoryForm";
+import NewCommentForm from "./NewCommentForm";
 
 
 export default function ApplicationViews() {
@@ -53,6 +54,10 @@ export default function ApplicationViews() {
 
         <Route path="/newpost">
           <NewPostForm />
+        </Route>
+
+        <Route path="/newcomment/:id">
+          <NewCommentForm/>
         </Route>
 
         <Route path={`/posts/:id`}>
