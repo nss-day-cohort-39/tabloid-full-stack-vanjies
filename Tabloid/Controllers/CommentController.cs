@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Tabloid.Data;
 using Tabloid.Models;
 using Tabloid.Repositories;
-
 namespace Tabloid.Controllers
 {
     [Authorize]
@@ -17,14 +16,35 @@ namespace Tabloid.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        
+        private readonly CommentRepository _commentRepo;
         private readonly UserProfileRepository _userProfileRepository;
-        private readonly CommentRepository _commentRepository;
-
         public CommentController(ApplicationDbContext context)
         {
+            _commentRepo = new CommentRepository(context);
             _userProfileRepository = new UserProfileRepository(context);
-            _commentRepository = new CommentRepository(context);
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_commentRepo.GetAll());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var comment = _commentRepo.GetById(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return Ok(comment);
+        }
+
+        [HttpGet("getbypost/{id}")]
+        public IActionResult GetByPost(int id)
+        {
+            return Ok(_commentRepo.GetByPostId(id));
         }
 
         private UserProfile GetCurrentUserProfile()
@@ -32,7 +52,6 @@ namespace Tabloid.Controllers
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
-
         [Authorize]
         [HttpPost]
         public IActionResult Post(Comment comment)
@@ -40,9 +59,9 @@ namespace Tabloid.Controllers
             var currentUser = GetCurrentUserProfile();
             comment.UserProfileId = currentUser.Id;
 
-            _commentRepository.Add(comment);
+            _commentRepo.Add(comment);
             return CreatedAtAction("Get", new { id = comment.Id }, comment);
         }
-
     }
 }
+
