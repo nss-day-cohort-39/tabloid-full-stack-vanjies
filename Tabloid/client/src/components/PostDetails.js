@@ -3,12 +3,16 @@ import { useParams, Link } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
 import { Button, Modal, ModalBody } from "reactstrap";
 import { useHistory } from "react-router-dom";
+import { CommentContext } from "../providers/CommentProvider";
 
 const PostDetail = () => {
   const { getPostById } = useContext(PostContext);
   const [post, setPost] = useState();
   const { id } = useParams();
   const history = useHistory();
+
+  // const { getComment, getCommentsByPostId} = useContext(CommentContext)
+  // const [comment] = useState();
 
   const { deletePost } = useContext(PostContext);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -38,9 +42,9 @@ const PostDetail = () => {
           </div>
         </div>
         <Button onClick={toggleDelete}>Delete Post</Button>
-
-        <Link to={`/comments/${id}`}>
-            <p>View Comments</p>
+        
+        <Link to={`/comments/${id}`} type="button" class="btn btn-info" value="View Comments" size="sm">
+            View Comments
           </Link>
       </div>
 
