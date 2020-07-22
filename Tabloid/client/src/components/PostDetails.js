@@ -78,14 +78,15 @@ const submitForm = () => {
                         <p className="post-details-postedBy"><b>Posted By: </b> {post.userProfile.displayName}</p>
                         <pre className="post-details-content">{post.content}</pre>
                         <p className="post-details-publishDate"><b>Publish Date: </b> {post.publishDateTime.substr(0, 10)}</p>
-                    </div>
-                </div>
-                <Button onClick={() => history.push(`/newcomment/${post.id}`)} >Add Comment</Button>
+                        <Button onClick={() => history.push(`/newcomment/${post.id}`)} >Add Comment</Button>
                 <Button onClick={toggleEdit}>Edit</Button>
                 <Button onClick={toggleDelete}>Delete Post</Button>
                 <Link to={`/comments/${id}`} type="button" class="btn btn-info" value="View Comments" size="sm">
             View Comments
           </Link>
+                    </div>
+                </div>
+               
             </div>
 
             <Modal isOpen={deleteModal} toggle={toggleDelete}>
