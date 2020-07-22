@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React, { useContext, useState, useRef} from "react";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 import { CommentContext } from "../providers/CommentProvider";
 import { Card, CardBody, Button, Modal, ModalBody } from "reactstrap";
@@ -18,8 +18,8 @@ const Comment = ({ comment, postId }) => {
   const theUserProfile = JSON.parse(userProfile);
   const { updateComment } = useContext(CommentContext);
 
-  const [subject, setSubject] = useState();
-  const [content,setContent] = useState()
+  const subject = useRef();
+  const content = useRef();
 
    const [editModal, setEditModal] = useState(false);
 
@@ -31,8 +31,8 @@ const Comment = ({ comment, postId }) => {
     debugger
     updateComment({
       id: comment.id,
-      subject: subject,
-      content: content,
+      subject: subject.current.value,
+      content: content.current.value,
       postId: parseInt(postId),
       userProfileId: theUserProfile.id,
       createDateTime: comment.createDateTime
@@ -64,7 +64,7 @@ const Comment = ({ comment, postId }) => {
             <input
               type="text"
               id="subject"
-              onChange={(e) => setSubject(e.target.value)}
+              ref={subject}
               required
               autoFocus
               className="form-control mt-4"
@@ -75,7 +75,7 @@ const Comment = ({ comment, postId }) => {
             <input
               type="text-area"
               id="content"
-              onChange={(e) => setContent(e.target.value)}
+              ref={content}
               required
               autoFocus
               className="form-control mt-4"
@@ -89,17 +89,17 @@ const Comment = ({ comment, postId }) => {
                 color="info"
                 onClick={(evt) => {
                   evt.preventDefault();
-                  if (!content) {
+                  if (content.current.value === "") {
                     window.alert("You forgot to enter content!");
-                  } else if (!subject) {
+                  } else if (subject.current.value === "") {
                     window.alert("You forgot the subject!");
                   } else {
                     
                     submitForm(comment);
                     setTheComment({
                       id: comment.id,
-                      subject: subject,
-                      content: content,
+                      subject: subject.current.value,
+                      content: content.current.value,
                       postId: parseInt(postId),
                       userProfileId: theUserProfile.id,
                       createDateTime: comment.createDateTime
