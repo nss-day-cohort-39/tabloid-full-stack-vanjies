@@ -22,9 +22,10 @@ const CommentList = () => {
   return (
     <div className="container">
       <div className="row justify-content-center">
-      <p className="post-details-title"><b>Post Title: </b> {post.title}</p>
+     
      
         <div className="cards-column">
+        <p className="post-details-title"><b>Post Title: </b> {post.title}</p>
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} postId={id} />
           ))}
