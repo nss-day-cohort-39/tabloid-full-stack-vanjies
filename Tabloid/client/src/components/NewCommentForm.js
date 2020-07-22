@@ -27,7 +27,7 @@ export default function NewCommentForm() {
         postId: parseInt(id)
       };
       addComment(NewComment)
-        .then(() => history.push(`/`))
+        .then(() => history.push(`/comments/${id}`))
         .catch((err) => alert(`An error ocurred: ${err.message}`));
     }
   };
