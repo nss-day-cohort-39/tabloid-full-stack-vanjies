@@ -32,8 +32,8 @@ const CommentList = () => {
           <br></br>
           <br></br>
           <br></br>
-          <Link to={`/`} type="button" class="btn btn-info" value="Back to Posts" size="sm">
-            Back to Posts
+          <Link to={`/posts/${id}`} type="button" class="btn btn-info" value="Back to Posts" size="sm">
+            Back to Post
           </Link>
         </div>
       </div>
