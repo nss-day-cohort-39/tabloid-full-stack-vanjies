@@ -62,6 +62,21 @@ namespace Tabloid.Controllers
             _commentRepo.Add(comment);
             return CreatedAtAction("Get", new { id = comment.Id }, comment);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Comment comment)
+        {
+            if (id != comment.Id)
+            {
+                return BadRequest();
+            }
+            var currentUser = GetCurrentUserProfile();
+            comment.UserProfileId = currentUser.Id;
+
+            _commentRepo.Update(comment);
+            return NoContent();
+        }
+
     }
 }
 

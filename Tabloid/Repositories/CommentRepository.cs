@@ -63,5 +63,11 @@ namespace Tabloid.Repositories
             _context.Comment.Remove(comment);
             _context.SaveChanges();
         }
+
+        public void Update(Comment comment)
+        {
+            _context.Entry(comment).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
     }
 }
